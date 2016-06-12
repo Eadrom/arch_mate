@@ -1,0 +1,28 @@
+# Maintainer:  eadrom <eadrom@archlinux.info>
+# Contributor:  Martin Wimpress <code@flexion.org>
+
+pkgname=libxnvctrl
+pkgver=367.18
+pkgrel=1
+pkgdesc="NVIDIA X Ctrl library"
+arch=('i686' 'x86_64')
+url="http://www.nvidia.com/"
+license=('GPL2')
+makedepends=('libxext')
+options=('staticlibs')
+source=("ftp://download.nvidia.com/XFree86/nvidia-settings/nvidia-settings-${pkgver}.tar.bz2")
+sha256sums=('035a45b3deca126596c1ac6088e13a72be62cc60d5b56f71978bb45ae67b6c14')
+
+build() {
+    cd "nvidia-settings-${pkgver}/src/libXNVCtrl"
+    make clean
+    make
+}
+
+package() {
+    cd "nvidia-settings-${pkgver}/src/libXNVCtrl"
+    # install libXNVCtrl and headers
+    install -d -m 755 "${pkgdir}"/usr/{include/NVCtrl,lib}
+    install -m 644 nv_control.h NVCtrl{,Lib}.h "${pkgdir}"/usr/include/NVCtrl/
+    install -m 644 libXNVCtrl.a "${pkgdir}"/usr/lib/libXNVCtrl.a
+}

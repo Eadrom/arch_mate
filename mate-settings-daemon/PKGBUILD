@@ -1,0 +1,39 @@
+# Maintainer:  eadrom <eadrom@archlinux.info>
+# Contributor:  Martin Wimpress <code@flexion.org>
+
+_ver=1.14
+_pkgbase=mate-settings-daemon
+pkgname=(${_pkgbase})
+pkgver=${_ver}.0
+pkgrel=1
+pkgdesc="The MATE Settings daemon (GTK2 version)"
+url="http://mate-desktop.org"
+arch=('i686' 'x86_64')
+license=('GPL')
+depends=('dbus-glib' 'dconf' 'fontconfig' 'gtk2' 'libcanberra-pulse'
+         'libmatekbd>=1.14' 'libmatemixer' 'libnotify' 'libxt'
+         'mate-desktop>=1.14' 'nss' 'polkit')
+makedepends=('mate-common')
+groups=('mate')
+replaces=("${_pkgbase}-gstreamer" "${_pkgbase}-pulseaudio")
+conflicts=("${_pkgbase}-gtk3" "${_pkgbase}-gstreamer" "${_pkgbase}-pulseaudio")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+sha1sums=('efb8782cbf68035613b2104e3b2197e96f6fcb03')
+install=${_pkgbase}.install
+
+build() {
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/${_pkgbase} \
+        --sysconfdir=/etc \
+        --with-gtk=2.0 \
+        --enable-polkit \
+        --disable-static
+    make
+}
+
+package() {
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    make DESTDIR="${pkgdir}" install
+}
