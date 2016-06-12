@@ -10,8 +10,9 @@ pkgdesc="MATE document viewer (GTK2 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dconf' 'dbus' 'desktop-file-utils' 'gtk2' 'libsecret' 'libsm' 'libspectre'
-         'mate-desktop>=1.14' 'mathjax' 'poppler-glib' 'webkitgtk2' 'zlib')
+depends=('dconf' 'dbus' 'desktop-file-utils' 'glib2' 'gtk2' 'gtk-update-icon-cache' 
+         'libsecret' 'libsm' 'libspectre' 'mate-desktop>=1.14' 'mathjax' 
+         'poppler-glib' 'webkitgtk2' 'zlib')
 makedepends=('caja>=1.14' 'djvulibre' 'gobject-introspection' 'libgxps'
              'mate-common' 'texlive-bin' 'yelp-tools')
 optdepends=('caja: Document Properties extension'
@@ -23,7 +24,6 @@ groups=('mate-extra')
 conflicts=("${_pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('7e1cd353202e9ae4a5ad63b093572d140dd0a7c3')
-install=${_pkgbase}.install
 
 build() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

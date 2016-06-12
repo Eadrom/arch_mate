@@ -11,11 +11,10 @@ groups=('mate' 'mate-gtk3')
 url="http://mate-desktop.org"
 arch=('any')
 license=('GPL' 'LGPL')
-depends=('yelp')
+depends=('desktop-file-utils' 'yelp')
 makedepends=('mate-common' 'yelp-tools')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('03e872c3d879599569ef26ff2e854fb59dbd3981')
-install=${_pkgbase}.install
 
 build() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

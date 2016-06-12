@@ -11,11 +11,11 @@ pkgdesc="Notification daemon for MATE"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL' 'LGPL')
-depends=('dconf' 'dbus-glib' 'gtk2' 'gtk3' 'libcanberra' 'libwnck' 'libwnck3' 'libnotify')
+depends=('dconf' 'dbus-glib' 'glib2' 'gtk2' 'gtk3' 'gtk-update-icon-cache'
+         'libcanberra' 'libwnck' 'libwnck3' 'libnotify')
 makedepends=('mate-common')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('a25cd040f18ae6c3ab01539a1b023350b79ed447')
-install=${pkgname}.install
 
 prepare() {
     cd "${srcdir}"

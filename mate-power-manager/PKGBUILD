@@ -10,8 +10,8 @@ pkgdesc="Power management tool for the MATE desktop (GTK2 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'dconf' 'gtk2' 'libcanberra' 'libgnome-keyring'
-         'libnotify' 'libunique' 'mate-desktop>=1.14' 'upower')
+depends=('dbus-glib' 'dconf' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libcanberra'
+         'libgnome-keyring' 'libnotify' 'libunique' 'mate-desktop>=1.14' 'upower')
 makedepends=('docbook2x' 'docbook-xml' 'mate-common' 'mate-panel' 'xmlto' 'yelp-tools')
 optdepends=('mate-panel: Set brightness and inhibit power management from the panel'
             'yelp: for reading MATE help documents')
@@ -19,7 +19,6 @@ source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.
 groups=('mate-extra')
 conflicts=("${_pkgbase}-gtk3")
 sha1sums=('286ac97658d18ea1fffa6e0a692a877727a44e41')
-install=${_pkgbase}.install
 
 prepare() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

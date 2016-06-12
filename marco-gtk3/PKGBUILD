@@ -10,7 +10,7 @@ pkgdesc="A window manager for MATE  (GTK3 version [EXPERIMENTAL])"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('gtk3' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
+depends=('gtk3' 'glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
          'mate-desktop-gtk3>=1.14' 'startup-notification' 'zenity')
 makedepends=('mate-common' 'yelp-tools')
 optdepends=('yelp: for reading MATE help documents')
@@ -18,7 +18,6 @@ groups=('mate-gtk3')
 conflicts=("${_pkgbase}")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('dc4770dea2d09b046f027064329b94e6fd53367b')
-install=${_pkgbase}.install
 
 build() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

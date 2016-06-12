@@ -10,14 +10,14 @@ pkgdesc="User level public file sharing via WebDAV for MATE. (GTK3 version [EXPE
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'dconf' 'libunique3' 'mod_dnssd')
+depends=('dbus-glib' 'dconf' 'desktop-file-utils' 'glib2' 'gtk-update-icon-cache'
+         'libunique3' 'mod_dnssd')
 makedepends=('caja-gtk3>=1.14' 'libcanberra' 'libnotify' 'mate-common' 'yelp-tools')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate-extra-gtk3')
 conflicts=("${_pkgbase}")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('95491485a0769f252e068ed2256f1a3386330094')
-install=${_pkgbase}.install
 
 build() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

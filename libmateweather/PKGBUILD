@@ -10,11 +10,10 @@ pkgdesc="Provides access to weather information from the Internet."
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('LGPL')
-depends=('dconf' 'gtk2' 'gtk3' 'libsoup')
+depends=('dconf' 'glib2' 'gtk2' 'gtk3' 'gtk-update-icon-cache' 'libsoup')
 makedepends=('mate-common')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgname}-${pkgver}.tar.xz")
 sha1sums=('8f94aee849e613f2e869f096bbc618180016d885')
-install=${pkgbase}.install
 
 prepare() {
     cd "${srcdir}"

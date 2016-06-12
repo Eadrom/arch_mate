@@ -10,8 +10,9 @@ pkgdesc="MATE document viewer (GTK3 version [EXPERIMENTAL])"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dconf' 'dbus' 'desktop-file-utils' 'gtk3' 'libsecret' 'libsm' 'libspectre'
-         'mate-desktop-gtk3>=1.14' 'mathjax' 'poppler-glib' 'webkit2gtk' 'zlib')
+depends=('dconf' 'dbus' 'desktop-file-utils' 'glib2' 'gtk3' 'gtk-update-icon-cache' 
+         'libsecret' 'libsm' 'libspectre' 'mate-desktop-gtk3>=1.14' 'mathjax' 
+         'poppler-glib' 'webkit2gtk' 'zlib')
 makedepends=('caja-gtk3>=1.14' 'djvulibre' 'gobject-introspection' 'libgxps'
              'mate-common' 'texlive-bin' 'yelp-tools')
 optdepends=('caja-gtk3: Document Properties extension'

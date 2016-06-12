@@ -54,10 +54,9 @@ package_caja-image-converter-gtk3() {
 
 package_caja-open-terminal-gtk3() {
     pkgdesc="A Caja extension for opening terminals in arbitrary local paths (GTK3 version [EXPERIMENTAL])"
-    depends=('caja-gtk3' 'caja-extensions-common')
+    depends=('caja-gtk3' 'caja-extensions-common' 'glib2')
     groups=('mate-extra-gtk3')
     conflicts=('caja-open-terminal')
-    install=caja-open-terminal.install
 
     cd "${srcdir}/${_pkgbase}-${pkgver}"
     make -C open-terminal DESTDIR="${pkgdir}" install
@@ -65,12 +64,11 @@ package_caja-open-terminal-gtk3() {
 
 package_caja-sendto-gtk3() {
     pkgdesc="A Caja extension for sending files (GTK3 version [EXPERIMENTAL])"
-    depends=('caja-gtk3' 'caja-extensions-common' 'dbus-glib' 'gupnp')
+    depends=('caja-gtk3' 'caja-extensions-common' 'dbus-glib' 'glib2' 'gupnp')
     groups=('mate-extra-gtk3')
     optdepends=('pidgin: Support for sending to instant messaging networks.'
                 'gajim: Support for sending to Jabber.')
     conflicts=('caja-sendto')
-    install=caja-sendto.install
 
     cd "${srcdir}/${_pkgbase}-${pkgver}"
     make -C sendto DESTDIR="${pkgdir}" install

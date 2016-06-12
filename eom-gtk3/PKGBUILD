@@ -10,16 +10,15 @@ pkgdesc="An image viewing and cataloging program for MATE (GTK3 version [EXPERIM
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'desktop-file-utils' 'gobject-introspection-runtime' 'gtk3' 'exempi'
-         'lcms2' 'libexif' 'libjpeg-turbo' 'librsvg' 'mate-desktop-gtk3>=1.14'
-         'startup-notification' 'zlib')
+depends=('dbus-glib' 'desktop-file-utils' 'glib2' 'gobject-introspection-runtime' 'gtk3'
+         'gtk-update-icon-cache' 'exempi' 'lcms2' 'libexif' 'libjpeg-turbo' 'librsvg'
+         'mate-desktop-gtk3>=1.14' 'startup-notification' 'zlib')
 makedepends=('mate-common' 'gobject-introspection' 'yelp-tools')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate-extra-gtk3')
 conflicts=("${_pkgbase}")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('df3e91693122053e97a87ca02119b2deda74e475')
-install=${_pkgbase}.install
 
 build() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

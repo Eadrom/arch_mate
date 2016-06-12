@@ -10,9 +10,9 @@ pkgdesc="File manager for the MATE desktop (GTK3 version [EXPERIMENTAL])"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus' 'desktop-file-utils' 'exempi' 'gtk3' 'gvfs' 'libexif'
-         'libunique3' 'libxt' 'mate-desktop-gtk3>=1.14'
-         'startup-notification')
+depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk3' 'gtk-update-icon-cache'
+         'gvfs' 'libexif' 'libunique3' 'libxt' 'mate-desktop-gtk3>=1.14' 
+         'shared-mime-info' 'startup-notification')
 makedepends=('gobject-introspection' 'mate-common')
 optdepends=('gstreamer: automatic media playback when mouseover'
             'gvfs-smb: To connect to Samba/Windows shares')
@@ -20,7 +20,6 @@ groups=('mate-gtk3')
 conflicts=("${_pkgbase}")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('db84d1876031974e33db12eb0bea187639a11cc7')
-install=${_pkgbase}.install
 
 build() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

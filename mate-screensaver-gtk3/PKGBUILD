@@ -10,8 +10,8 @@ pkgdesc='Screensaver for MATE (GTK3 version [EXPERIMENTAL])'
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'libmatekbd-gtk3>=1.14' 'libnotify' 'libxss' 'mate-desktop-gtk3>=1.14'
-         'mate-menus>=1.14' 'mate-session-manager-gtk3>=1.14')
+depends=('dbus-glib' 'glib2' 'libmatekbd-gtk3>=1.14' 'libnotify' 'libxss'
+         'mate-desktop-gtk3>=1.14' 'mate-menus>=1.14' 'mate-session-manager-gtk3>=1.14')
 makedepends=('mate-common' 'xmlto')
 optdepends=('mate-power-manager-gtk3: Add power management support.'
             'mate-screensaver-hacks: Additional screensavers.'
@@ -20,7 +20,6 @@ groups=('mate-extra-gtk3')
 conflicts=("${_pkgbase}")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('0aae11c766ef7dc1383de182661bf89b43750f1a')
-install=${_pkgbase}.install
 
 build() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

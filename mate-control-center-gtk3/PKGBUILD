@@ -10,17 +10,17 @@ pkgdesc="The Control Center for MATE (GTK3 version [EXPERIMENTAL])"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'dconf' 'desktop-file-utils' 'gsettings-desktop-schemas' 'gtk3'
-         'mate-desktop-gtk3>=1.14' 'mate-menus>=1.14' 'mate-settings-daemon-gtk3>=1.14'
-         'marco-gtk3>=1.14' 'libgtop' 'libmatekbd-gtk3>=1.14' 'libunique3' 'librsvg' 'libxss'
-         'libxt' 'startup-notification')
+depends=('dbus-glib' 'dconf' 'desktop-file-utils' 'glib2' 'gsettings-desktop-schemas'
+         'gtk3' 'gtk-update-icon-cache' 'mate-desktop-gtk3>=1.14' 'mate-menus>=1.14'
+         'mate-settings-daemon-gtk3>=1.14' 'marco-gtk3>=1.14' 'libgtop' 
+         'libmatekbd-gtk3>=1.14' 'libunique3' 'librsvg' 'libxss' 'libxt'
+         'shared-mime-info' 'startup-notification')
 makedepends=('docbook2x' 'mate-common' 'yelp-tools')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate-gtk3')
 conflicts=("${_pkgbase}")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('4e02c9461fbdf7acf4bca015199e8bfedb11a278')
-install=${_pkgbase}.install
 
 build() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

@@ -10,7 +10,8 @@ pkgdesc="Archive manipulator for MATE (GTK3 version [EXPERIMENTAL])"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('bzip2' 'desktop-file-utils' 'gtk3' 'gzip' 'libarchive' 'tar')
+depends=('bzip2' 'desktop-file-utils' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'gzip'
+         'libarchive' 'tar')
 makedepends=('caja-gtk3>=1.14' 'mate-common' 'yelp-tools')
 optdepends=('caja-gtk3: file archiver extension'
             'unrar: for RAR uncompression'
@@ -24,7 +25,6 @@ source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.
         fr-rpm-bsdtar.patch)
 sha1sums=('1245f5203b37b842cfaf818781b17cd22f1234b1'
           '219b05a979bf6f249aaae27964f02345fd81168d')
-install=${_pkgbase}.install
 
 prepare() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

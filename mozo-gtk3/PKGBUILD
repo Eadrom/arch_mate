@@ -10,13 +10,12 @@ pkgdesc="MATE menu editing tool (GTK3 version [EXPERIMENTAL])"
 url="http://mate-desktop.org"
 arch=('any')
 license=('GPL')
-depends=('mate-menus>=1.14' 'python2-gobject')
+depends=('gtk-update-icon-cache' 'mate-menus>=1.14' 'python2-gobject')
 makedepends=('git' 'mate-common')
 groups=('mate-extra-gtk3')
 conflicts=("${_pkgbase}")
 source=("${_pkgbase}"::"git+https://github.com/mate-desktop/${_pkgbase}.git#branch=gtk3")
 sha1sums=('SKIP')
-install=${_pkgbase}.install
 
 prepare() {
     cd "${srcdir}/${_pkgbase}"

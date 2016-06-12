@@ -10,7 +10,7 @@ pkgdesc="A powerful text editor for MATE (GTK2 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('desktop-file-utils' 'enchant' 'gtk2' 'gtksourceview2' 'iso-codes'
+depends=('desktop-file-utils' 'enchant' 'glib2' 'gtk2' 'gtksourceview2' 'iso-codes'
          'libsm' 'mate-desktop>=1.14' 'pygtksourceview2' 'python2-gobject' 'zenity')
 makedepends=('mate-common' 'yelp-tools')
 optdepends=('yelp: for reading MATE help documents')
@@ -18,7 +18,6 @@ groups=('mate-extra')
 conflicts=("${_pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('e521a50260b46af94adf43078dc430c0f590a24a')
-install=${_pkgbase}.install
 
 prepare() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"

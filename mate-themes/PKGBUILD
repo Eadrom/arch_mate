@@ -9,14 +9,14 @@ pkgdesc="Default themes for the MATE desktop"
 url="http://mate-desktop.org"
 arch=('any')
 license=('GPL')
-depends=('gtk-engines' 'gtk-engine-murrine' 'librsvg' 'mate-icon-theme')
+depends=('gtk-engines' 'gtk-engine-murrine' 'gtk-update-icon-cache'
+         'librsvg' 'mate-icon-theme')
 makedepends=('mate-common' 'icon-naming-utils')
 groups=('mate' 'mate-gtk3')
 source=("http://pub.mate-desktop.org/releases/themes/${_ver}/${pkgname}-${pkgver}.tar.xz"
         "fix-selection.patch")
 sha1sums=('57f95f50cf9fccfbc96e90106c393285e46e0186'
           'da38d1a46be209d81cfd69e4ab3f579bde2c6d20')
-install=${pkgname}.install
 
 prepare() {
     cd "${srcdir}/${pkgname}-${pkgver}"
