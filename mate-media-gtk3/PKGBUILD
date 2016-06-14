@@ -4,7 +4,7 @@
 _ver=1.14
 _pkgbase=mate-media
 pkgname=(${_pkgbase}-gtk3)
-pkgver=${_ver}.1
+pkgver=${_ver}.0
 pkgrel=1
 url="http://mate-desktop.org"
 pkgdesc="MATE Media Tools (GTK3 version [EXPERIMENTAL])"
