@@ -4,7 +4,7 @@
 _ver=1.14
 _pkgbase=mate-panel
 pkgname=${_pkgbase}
-pkgver=${_ver}.0
+pkgver=${_ver}.1
 pkgrel=1
 pkgdesc="The MATE Panel (GTK2 version)"
 url="http://mate-desktop.org"
@@ -18,7 +18,7 @@ optdepends=('yelp: for reading MATE help documents')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 groups=('mate')
 conflicts=("${_pkgbase}-gtk3")
-sha1sums=('793a8714a47a9e00c68f9dc3b59457054e45e46a')
+sha1sums=('c7dac4caafef90b6f639b8a6a43ca1e98c1802cc')
 
 build() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"
