@@ -3,7 +3,7 @@
 
 _ver=1.14
 _pkgbase=caja-extensions
-pkgbase=${_pkgbase}-gtk3
+pkgbase=${_pkgbase}
 pkgname=(caja-extensions-common caja-gksu-gtk3 caja-image-converter-gtk3 caja-open-terminal-gtk3 caja-sendto-gtk3 caja-share-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
