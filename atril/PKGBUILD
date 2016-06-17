@@ -2,31 +2,36 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=atril
-pkgname=(${_pkgbase})
+pkgbase=atril
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.1
 pkgrel=1
-pkgdesc="MATE document viewer (GTK2 version)"
+pkgdesc="MATE document viewer"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dconf' 'dbus' 'desktop-file-utils' 'glib2' 'gtk2' 'gtk-update-icon-cache' 
+depends=('dconf' 'dbus' 'desktop-file-utils' 'glib2' 'gtk2' 'gtk3' 'gtk-update-icon-cache' 
          'libsecret' 'libsm' 'libspectre' 'mate-desktop>=1.14' 'mathjax' 
          'poppler-glib' 'webkitgtk2' 'zlib')
 makedepends=('caja>=1.14' 'djvulibre' 'gobject-introspection' 'libgxps'
-             'mate-common' 'texlive-bin' 'yelp-tools')
+             'mate-common' 'mate-desktop-gtk3' 'texlive-bin' 'yelp-tools' 'webkit2gtk')
 optdepends=('caja: Document Properties extension'
             'djvulibre: DjVu support'
             'libgxps: XPS support'
             'texlive-bin: DVI support'
             'yelp: for reading MATE help documents')
 groups=('mate-extra')
-conflicts=("${_pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('7e1cd353202e9ae4a5ad63b093572d140dd0a7c3')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk2"
     ./configure \
         --prefix=/usr \
         --libexecdir=/usr/lib/${_pkgbase} \
@@ -42,9 +47,41 @@ build() {
         --enable-introspection \
         --disable-static
     make
+
+    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/${_pkgbase} \
+        --with-gtk=3.0 \
+        --enable-gtk-doc \
+        --enable-djvu \
+        --enable-dvi \
+        --enable-epub \
+        --enable-t1lib \
+        --enable-pixbuf \
+        --enable-comics \
+        --enable-xps \
+        --enable-introspection \
+        --disable-static
+    make
 }
 
-package() {
+package_atril() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('dconf' 'dbus' 'gtk2' 'libsecret' 'libsm' 'libspectre' 'mate-desktop>=1.14'
+             'mathjax' 'poppler-glib' 'webkitgtk2' 'zlib')
+
     cd "${srcdir}/${_pkgbase}-${pkgver}"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_atril-gtk3() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk2")
+    depends=('dconf' 'dbus' 'gtk3' 'libsecret' 'libsm' 'libspectre' 'mate-desktop-gtk3>=1.14'
+             'mathjax' 'poppler-glib' 'webkit2gtk' 'zlib')
+
+    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
     make DESTDIR="${pkgdir}" install
 }
