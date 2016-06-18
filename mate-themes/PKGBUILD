@@ -3,7 +3,7 @@
 
 _ver=3.20
 pkgname=mate-themes
-pkgver=${_ver}.7
+pkgver=${_ver}.8
 pkgrel=1
 pkgdesc="Default themes for the MATE desktop"
 url="http://mate-desktop.org"
@@ -13,17 +13,8 @@ depends=('gtk-engines' 'gtk-engine-murrine' 'gtk-update-icon-cache'
          'librsvg' 'mate-icon-theme')
 makedepends=('mate-common' 'icon-naming-utils')
 groups=('mate' 'mate-gtk3')
-source=("http://pub.mate-desktop.org/releases/themes/${_ver}/${pkgname}-${pkgver}.tar.xz"
-        "fix-selection.patch")
-sha1sums=('57f95f50cf9fccfbc96e90106c393285e46e0186'
-          'da38d1a46be209d81cfd69e4ab3f579bde2c6d20')
-
-prepare() {
-    cd "${srcdir}/${pkgname}-${pkgver}"
-
-    # GTK+-3.20: fix text selection in firefox
-    patch -Np1 -i ../fix-selection.patch
-}
+source=("http://pub.mate-desktop.org/releases/themes/${_ver}/${pkgname}-${pkgver}.tar.xz")
+sha1sums=('b135248110ddca8083f66d8d206aa51ef01d9421')
 
 build() {
     cd "${srcdir}/${pkgname}-${pkgver}"
