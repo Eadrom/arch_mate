@@ -2,30 +2,36 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=mate-screensaver
-pkgname=(${_pkgbase})
+pkgbase=mate-screensaver
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.1
 pkgrel=1
-pkgdesc='Screensaver for MATE (GTK2 version)'
+pkgdesc='Screensaver for MATE'
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('dbus-glib' 'glib2' 'libmatekbd>=1.14' 'libnotify' 'libxss'
          'mate-desktop>=1.14' 'mate-menus>=1.14' 'mate-session-manager>=1.14')
-makedepends=('mate-common' 'xmlto')
+makedepends=('mate-common' 'xmlto' 'libmatekbd-gtk3>=1.14' 'mate-desktop-gtk3>=1.14' 'mate-session-manager-gtk3>=1.14')
 optdepends=('mate-power-manager: Add power management support.'
             'mate-screensaver-hacks: Additional screensavers.'
             'rss-glx: Really slick screensavers.')
 groups=('mate-extra')
-conflicts=("${_pkgbase}-gtk3")
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+conflicts=("${pkgbase}-gtk3")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('0aae11c766ef7dc1383de182661bf89b43750f1a')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
     ./configure \
         --prefix=/usr \
-        --libexecdir=/usr/lib/${_pkgbase} \
+        --libexecdir=/usr/lib/${pkgbase} \
         --sysconfdir=/etc \
         --with-xscreensaverdir=/usr/share/xscreensaver/config \
         --with-xscreensaverhackdir=/usr/lib/xscreensaver \
@@ -36,9 +42,39 @@ build() {
         --without-console-kit \
         --disable-static
     make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/${pkgbase} \
+        --sysconfdir=/etc \
+        --with-xscreensaverdir=/usr/share/xscreensaver/config \
+        --with-xscreensaverhackdir=/usr/lib/xscreensaver \
+        --with-mit-ext \
+        --with-libnotify \
+        --enable-locking \
+        --with-gtk=3.0 \
+        --without-console-kit \
+        --disable-static
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_mate-screensaver() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('dbus-glib' 'glib2' 'libmatekbd>=1.14' 'libnotify' 'libxss'
+             'mate-desktop>=1.14' 'mate-menus>=1.14' 'mate-session-manager>=1.14')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_mate-screensaver-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}")
+    depends=('dbus-glib' 'glib2' 'libmatekbd-gtk3>=1.14' 'libnotify' 'libxss'
+             'mate-desktop-gtk3>=1.14' 'mate-menus>=1.14' 'mate-session-manager-gtk3>=1.14')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

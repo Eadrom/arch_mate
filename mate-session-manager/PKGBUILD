@@ -2,8 +2,8 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=mate-session-manager
-pkgname=(${_pkgbase})
+pkgbase=mate-session-manager
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="The MATE Session Handler (GTK2 version)"
@@ -13,29 +13,62 @@ license=('GPL' 'LGPL')
 depends=('dbus-glib' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libsm' 'libxtst'
          'mate-desktop>=1.14' 'mate-polkit>=1.14' 'mate-settings-daemon>=1.14'
          'ttf-dejavu' 'xdg-user-dirs')
-makedepends=('mate-common' 'xmlto' 'xtrans')
+makedepends=('mate-common' 'xmlto' 'xtrans' 'gtk3' 'mate-desktop-gtk3>=1.14' 'mate-polkit-gtk3>=1.14' 'mate-settings-daemon-gtk3>=1.14')
 optdepends=('lightdm-gtk-greeter: A lightweight display manager'
             'onboard: On-screen keyboard useful for mobility impaired users'
             'orca: Screen reader for blind or visually impaired individuals'
             'xdg-user-dirs-gtk: Add autostart that prompts to rename user directories when switching locales')
 groups=('mate')
-conflicts=("${_pkgbase}-gtk3")
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+conflicts=("${pkgbase}-gtk3")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('65057b49c823368c176bb13dcc7c87a002d6b34b')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
     ./configure \
         --prefix=/usr \
-        --libexecdir=/usr/lib/${_pkgbase} \
+        --libexecdir=/usr/lib/${pkgbase} \
         --sysconfdir=/etc \
         --localstatedir=/var \
         --with-gtk=2.0 \
         --disable-upower
     make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/${pkgbase} \
+        --sysconfdir=/etc \
+        --localstatedir=/var \
+        --with-gtk=3.0 \
+        --disable-upower
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_mate-session-manager() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('dbus-glib' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libsm' 'libxtst'
+             'mate-desktop>=1.14' 'mate-polkit>=1.14' 'mate-settings-daemon>=1.14'
+             'ttf-dejavu' 'xdg-user-dirs')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_mate-session-manager-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}")
+    depends=('dbus-glib' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'libsm' 'libxtst'
+             'mate-desktop-gtk3>=1.14' 'mate-polkit-gtk3>=1.14'
+             'mate-settings-daemon-gtk3>=1.14' 'ttf-dejavu' 'xdg-user-dirs')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

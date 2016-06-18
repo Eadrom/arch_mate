@@ -2,32 +2,60 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=mate-netbook
-pkgname=${_pkgbase}
+pkgbase=mate-netbook
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
-pkgdesc="A simple window management tool (GTK2 version)"
+pkgdesc="A simple window management tool"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('glib2' 'gtk2' 'libfakekey' 'libwnck' 'libunique' 'mate-panel>=1.14')
-makedepends=('mate-common')
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
-conflicts=("${_pkgbase}-gtk3")
+makedepends=('mate-common' 'gtk3' 'libunique3' 'libwnck3' 'mate-panel-gtk3=>1.14')
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
+conflicts=("${pkgbase}-gtk3")
 sha1sums=('9a26877c8c2707f5c3a5744f9fb74a7cc6d49b55')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
     ./configure \
         --prefix=/usr \
-        --libexec=/usr/lib/${_pkgbase} \
+        --libexec=/usr/lib/${pkgbase} \
         --sysconfdir=/etc \
         --with-gtk=2.0 \
         --disable-static
     make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    ./configure \
+        --prefix=/usr \
+        --libexec=/usr/lib/${pkgbase} \
+        --sysconfdir=/etc \
+        --with-gtk=3.0 \
+        --disable-static
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_mate-netbook() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('glib2' 'gtk2' 'libfakekey' 'libwnck' 'libunique' 'mate-panel>=1.14')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_mate-netbook-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}")
+    depends=('glib2' 'gtk3' 'libfakekey' 'libwnck3' 'libunique3' 'mate-panel-gtk3>=1.14')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

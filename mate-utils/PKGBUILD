@@ -2,26 +2,32 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=mate-utils
-pkgname=(${_pkgbase})
+pkgbase=mate-utils
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
-pkgdesc="Common MATE utilities for viewing disk usage, logs and fonts, taking screenshots, managing dictionaries and searching files (GTK2 version)"
+pkgdesc="Common MATE utilities for viewing disk usage, logs and fonts, taking screenshots, managing dictionaries and searching files"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('desktop-file-utils' 'glib2' 'gtk2' 'gtk-update-icon-cache'
          'libcanberra' 'libgtop' 'libsm' 'zlib')
-makedepends=('mate-common' 'mate-panel>=1.14' 'rarian' 'yelp-tools')
+makedepends=('mate-common' 'mate-panel>=1.14' 'rarian' 'yelp-tools' 'gtk3')
 optdepends=('mate-panel: Look up words in dictionaries from the panel'
             'yelp: for reading MATE help documents')
 groups=('mate-extra')
-conflicts=("${_pkgbase}-gtk3")
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+conflicts=("${pkgbase}-gtk3")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('4a6f4803432204b74d6d48e4a4325b7b9e1ea4d5')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
     ./configure \
         --prefix=/usr \
         --libexecdir=/usr/lib/${_pkgbase} \
@@ -31,9 +37,35 @@ build() {
         --disable-maintainer-flags \
         --disable-static
     make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/${pkgbase} \
+        --with-gtk=3.0 \
+        --sysconfdir=/etc \
+        --enable-deprecated \
+        --disable-maintainer-flags \
+        --disable-static
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_mate-utils() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('desktop-file-utils' 'glib2' 'gtk2' 'gtk-update-icon-cache'
+             'libcanberra' 'libgtop' 'libsm' 'zlib')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_mate-utils-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}")
+    depends=('desktop-file-utils' 'glib2' 'gtk3' 'gtk-update-icon-cache'
+             'libcanberra' 'libgtop' 'libsm' 'zlib')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

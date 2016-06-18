@@ -2,8 +2,8 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=pluma
-pkgname=${_pkgbase}
+pkgbase=pluma
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="A powerful text editor for MATE (GTK2 version)"
@@ -12,30 +12,58 @@ arch=('i686' 'x86_64')
 license=('GPL')
 depends=('desktop-file-utils' 'enchant' 'glib2' 'gtk2' 'gtksourceview2' 'iso-codes'
          'libsm' 'mate-desktop>=1.14' 'pygtksourceview2' 'python2-gobject' 'zenity')
-makedepends=('mate-common' 'yelp-tools')
+makedepends=('mate-common' 'yelp-tools' 'gtksourceview3' 'mate-desktop-gtk3>=1.14')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate-extra')
 conflicts=("${_pkgbase}-gtk3")
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('e521a50260b46af94adf43078dc430c0f590a24a')
 
 prepare() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     sed -i 's/python/python2/' plugins/externaltools/data/switch-c.tool.in
+    cd "${srcdir}"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
     PYTHON=/usr/bin/python2 ./configure \
         --prefix=/usr \
-        --libexecdir=/usr/lib/${_pkgbase} \
+        --libexecdir=/usr/lib/${pkgbase} \
         --with-gtk=2.0 \
         --enable-gtk-doc=no \
         --enable-python
     make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    PYTHON=/usr/bin/python2 ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/${pkgbase} \
+        --with-gtk=3.0 \
+        --enable-gtk-doc=no \
+        --disable-python
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_pluma() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('desktop-file-utils' 'enchant' 'glib2' 'gtk2' 'gtksourceview2' 'iso-codes'
+             'libsm' 'mate-desktop>=1.14' 'pygtksourceview2' 'python2-gobject' 'zenity')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_pluma-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}")
+    depends=('desktop-file-utils' 'enchant' 'glib2' 'gtk3' 'gtksourceview3' 'iso-codes'
+             'libsm' 'mate-desktop-gtk3>=1.14' 'zenity')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

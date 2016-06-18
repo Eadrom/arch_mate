@@ -2,43 +2,73 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=mate-applets
-pkgname=(${_pkgbase})
+pkgbase=mate-applets
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
-pkgdesc="Applets for MATE panel (GTK2 version)"
+pkgdesc="Applets for MATE panel"
 arch=('i686' 'x86_64')
 url="http://mate-desktop.org"
 license=('GPL')
 depends=('glib2' 'gtksourceview2' 'gtk-update-icon-cache' 'libgtop' 'libnotify'
          'mate-panel>=1.14' 'polkit' 'python2-dbus' 'python2-gobject' 'upower')
-makedepends=('docbook2x' 'docbook-xsl' 'mate-common' 'yelp-tools')
+makedepends=('docbook2x' 'docbook-xsl' 'mate-common' 'yelp-tools' 'gtksourceview3' 'mate-panel-gtk3>=1.14')
 optdepends=('fortune-mod: for displaying fortune cookies in the Wanda the Fish applet'
             'yelp: for reading MATE help documents')
 groups=('mate-extra')
-conflicts=("${_pkgbase}-gtk3")
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+conflicts=("${pkgbase}-gtk3")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('e316ade06cba447908120eee07b777dcfae436cd')
 
 prepare() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     sed -i 's/env python/env python2/' invest-applet/invest/{chart.py,invest-applet.py,mate-invest-chart}
+    cd "${srcdir}"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
     PYTHON=/usr/bin/python2 ./configure \
         --prefix=/usr \
         --sysconfdir=/etc \
-        --libexecdir=/usr/lib/${_pkgbase} \
+        --libexecdir=/usr/lib/${pkgbase} \
         --enable-polkit \
         --enable-ipv6 \
         --with-gtk=2.0 \
         --disable-static
     make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    PYTHON=/usr/bin/python2 ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --libexecdir=/usr/lib/${pkgbase} \
+        --enable-polkit \
+        --enable-ipv6 \
+        --with-gtk=3.0 \
+        --disable-static
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_mate-applets() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('glib2' 'gtksourceview2' 'gtk-update-icon-cache' 'libgtop' 'libnotify'
+             'mate-panel>=1.14' 'polkit' 'python2-dbus' 'python2-gobject' 'upower')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_mate-applets-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}")
+    depends=('glib2' 'gtksourceview3' 'gtk-update-icon-cache' 'libgtop' 'libnotify'
+             'mate-panel-gtk3>=1.14' 'python2-dbus' 'python2-gobject' 'upower')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

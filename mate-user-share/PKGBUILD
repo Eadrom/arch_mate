@@ -2,8 +2,8 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=mate-user-share
-pkgname=(${_pkgbase})
+pkgbase=mate-user-share
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="User level public file sharing via WebDAV for MATE."
@@ -12,26 +12,58 @@ arch=('i686' 'x86_64')
 license=('GPL')
 depends=('dbus-glib' 'desktop-file-utils' 'dconf' 'glib2' 'gtk-update-icon-cache'
          'libunique' 'mod_dnssd')
-makedepends=('caja>=1.14' 'libcanberra' 'libnotify' 'mate-common' 'yelp-tools')
+makedepends=('caja>=1.14' 'libcanberra' 'libnotify' 'mate-common' 'yelp-tools' 'libunique3')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate-extra')
-conflicts=("${_pkgbase}-gtk3")
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+conflicts=("${pkgbase}-gtk3")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('95491485a0769f252e068ed2256f1a3386330094')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
     PYTHON=/usr/bin/python2 ./configure \
         --prefix=/usr \
-        --libexec=/usr/lib/${_pkgbase} \
+        --libexec=/usr/lib/${pkgbase} \
         --sysconfdir=/etc \
+        --disable-static \
+        --disable-bluetooth
+    make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    PYTHON=/usr/bin/python2 ./configure \
+        --prefix=/usr \
+        --libexec=/usr/lib/${pkgbase} \
+        --sysconfdir=/etc \
+        --with-gtk=3.0 \
         --disable-static \
         --disable-bluetooth
     make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
-    make  DESTDIR="${pkgdir}" install
+package_mate-user-share() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('dbus-glib' 'desktop-file-utils' 'dconf' 'glib2' 'gtk-update-icon-cache'
+             'libunique' 'mod_dnssd')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+    rm -f "${pkgdir}/usr/share/mate-user-share/dav_user_2.0.conf"
+}
+
+package_mate-user-share-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}")
+    depends=('dbus-glib' 'dconf' 'desktop-file-utils' 'glib2' 'gtk-update-icon-cache'
+             'libunique3' 'mod_dnssd')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    make DESTDIR="${pkgdir}" install
     rm -f "${pkgdir}/usr/share/mate-user-share/dav_user_2.0.conf"
 }

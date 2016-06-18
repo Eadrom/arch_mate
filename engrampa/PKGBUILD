@@ -2,8 +2,8 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=engrampa
-pkgname=(${_pkgbase})
+pkgbase=engrampa
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.1
 pkgrel=1
 pkgdesc="Archive manipulator for MATE (GTK2 version)"
@@ -20,16 +20,22 @@ optdepends=('caja: file archiver extension'
             'unace: extraction tool for the proprietary ace archive format'
             'yelp: for reading MATE help documents')
 groups=('mate-extra')
-conflicts=("${_pkgbase}-gtk3")
+conflicts=("${pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz"
         fr-rpm-bsdtar.patch)
 sha1sums=('1245f5203b37b842cfaf818781b17cd22f1234b1'
           '219b05a979bf6f249aaae27964f02345fd81168d')
 
 prepare() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+
+    cd "${srcdir}/${pkgbase}-gtk2"
     # This patch 'depends' on libarchive
     patch -Np1 -i "${srcdir}/fr-rpm-bsdtar.patch"
+
+    cd "${srcdir}"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
 }
 
 build() {
@@ -41,9 +47,33 @@ build() {
         --disable-static \
         --disable-packagekit
     make
+
+    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/${_pkgbase} \
+        --with-gtk=3.0 \
+        --disable-static \
+        --disable-packagekit
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_engrampa() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('bzip2' 'desktop-file-utils' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'gzip'
+             'libarchive' 'tar')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_engrampa-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}")
+    depends=('bzip2' 'desktop-file-utils' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'gzip'
+             'libarchive' 'tar')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

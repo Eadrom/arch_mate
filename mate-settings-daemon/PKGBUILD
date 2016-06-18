@@ -2,37 +2,70 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=mate-settings-daemon
-pkgname=(${_pkgbase})
+pkgbase=mate-settings-daemon
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
-pkgdesc="The MATE Settings daemon (GTK2 version)"
+pkgdesc="The MATE Settings daemon"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk2' 'gtk-update-icon-cache'
          'libcanberra-pulse' 'libmatekbd>=1.14' 'libmatemixer' 'libnotify'
          'libxt' 'mate-desktop>=1.14' 'nss' 'polkit')
-makedepends=('mate-common')
+makedepends=('mate-common' 'gtk3' 'libmatekbd-gtk3>=1.14' 'mate-desktop-gtk3>=1.14')
 groups=('mate')
-replaces=("${_pkgbase}-gstreamer" "${_pkgbase}-pulseaudio")
-conflicts=("${_pkgbase}-gtk3" "${_pkgbase}-gstreamer" "${_pkgbase}-pulseaudio")
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+replaces=("${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
+conflicts=("${pkgbase}-gtk3" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('efb8782cbf68035613b2104e3b2197e96f6fcb03')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
     ./configure \
         --prefix=/usr \
-        --libexecdir=/usr/lib/${_pkgbase} \
+        --libexecdir=/usr/lib/${pkgbase} \
         --sysconfdir=/etc \
         --with-gtk=2.0 \
         --enable-polkit \
         --disable-static
     make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/${pkgbase} \
+        --sysconfdir=/etc \
+        --with-gtk=3.0 \
+        --enable-polkit \
+        --disable-static
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_mate-settings-daemon() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
+    depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk2' 'gtk-update-icon-cache'
+             'libcanberra-pulse' 'libmatekbd>=1.14' 'libmatemixer' 'libnotify'
+             'libxt' 'mate-desktop>=1.14' 'nss' 'polkit')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_mate-settings-daemon-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
+    depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk3' 'gtk-update-icon-cache'
+             'libcanberra-pulse' 'libmatekbd-gtk3>=1.14' 'libmatemixer' 'libnotify'
+             'libxt' 'mate-desktop-gtk3>=1.14' 'nss' 'polkit')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

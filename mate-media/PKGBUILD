@@ -2,35 +2,64 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=mate-media
-pkgname=(${_pkgbase})
+pkgbase=mate-media
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
 url="http://mate-desktop.org"
-pkgdesc="MATE Media Tools (GTK2 version)"
+pkgdesc="MATE Media Tools"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('gtk2' 'libcanberra' 'libmatemixer' 'libunique' 'mate-desktop>=1.14')
-makedepends=('mate-common')
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+makedepends=('mate-common' 'gtk3' 'libunique3' 'mate-desktop-gtk3>=1.14')
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 groups=('mate-extra')
-replaces=("${_pkgbase}-gstreamer" "${_pkgbase}-pulseaudio")
-conflicts=("${_pkgbase}-gtk3" "${_pkgbase}-gstreamer" "${_pkgbase}-pulseaudio")
+replaces=("${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
+conflicts=("${pkgbase}-gtk3" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
 sha1sums=('c9937f35fa3eb4209e2493f5d9838f5a5fb69886')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
     ./configure \
         --prefix=/usr \
         --sysconfdir=/etc \
-        --libexecdir=/usr/lib/${_pkgbase} \
+        --libexecdir=/usr/lib/${pkgbase} \
         --localstatedir=/var \
         --with-gtk=2.0 \
         --disable-static
     make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
+    ./configure \
+        --prefix=/usr \
+        --sysconfdir=/etc \
+        --libexecdir=/usr/lib/${pkgbase} \
+        --localstatedir=/var \
+        --with-gtk=3.0 \
+        --disable-static
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_mate-media() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
+    depends=('gtk2' 'libcanberra' 'libmatemixer' 'libunique' 'mate-desktop>=1.14')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_mate-media-gtk3() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
+    depends=('gtk3' 'libcanberra' 'libmatemixer' 'libunique3' 'mate-desktop-gtk3>=1.14')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

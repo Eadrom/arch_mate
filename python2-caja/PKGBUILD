@@ -2,18 +2,18 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=python-caja
-pkgname=python2-caja
+pkgbase=python-caja
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
-pkgdesc="Python binding for Caja, to allow Caja property page and menu item extensions to be written in Python (GTK2 version)"
+pkgdesc="Python binding for Caja, to allow Caja property page and menu item extensions to be written in Python"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('caja>=1.14' 'python2-gobject')
-makedepends=('mate-common')
+makedepends=('mate-common' 'caja-gtk3>=1.14')
 conflicts=('python2-caja-gtk3')
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('6a550470db3069ba43ab57e8d4d55259237dba3c')
 
 prepare() {
@@ -21,15 +21,43 @@ prepare() {
     sed -i 's/python-config/python2-config/' configure
 }
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
+    sed -i 's/python-config/python2-config/' configure
+    cd "${srcdir}"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
+    PYTHON=/usr/bin/python2 ./configure \
+        --prefix=/usr \
+        --disable-static
+    make
+
+    cd "${srcdir}/${pkgbase}-${pkgver}"
     PYTHON=/usr/bin/python2 ./configure \
         --prefix=/usr \
         --disable-static
     make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_python-caja() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=('python2-caja-gtk3')
+    depends=('caja>=1.14' 'python2-gobject')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_python-caja-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=('python2-caja')
+    depends=('caja-gtk3>=1.14' 'python2-gobject')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
 }

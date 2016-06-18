@@ -2,34 +2,63 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=mate-sensors-applet
-pkgname=(${_pkgbase})
+pkgbase=mate-sensors-applet
+pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
-pkgdesc="A MATE Panel applet to display readings from hardware sensors, including CPU temperature, fan speeds and voltage readings. (GTK2 version)"
+pkgdesc="A MATE Panel applet to display readings from hardware sensors, including CPU temperature, fan speeds and voltage readings."
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('dbus' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libatasmart' 'libnotify'
          'lm_sensors' 'mate-panel>=1.14')
-makedepends=('docbook-xml' 'libxnvctrl' 'mate-common' 'rarian' 'yelp-tools')
+makedepends=('docbook-xml' 'libxnvctrl' 'mate-common' 'rarian' 'yelp-tools' 'gtk3' 'mate-panel-gtk3>=1.14')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate-extra')
-conflicts=("${_pkgbase}-gtk3")
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+conflicts=("${pkgbase}-gtk3")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('3662e22a2d960ebb145e43b669dc320543cb1e06')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-gtk2"
+    ./configure \
+        --prefix=/usr \
+        --libexecdir=/usr/lib/${pkgbase} \
+        --with-gtk=2.0 \
+        --disable-static
+    make
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
         --libexecdir=/usr/lib/${_pkgbase} \
-        --with-gtk=2.0 \
+        --with-gtk=3.0 \
         --disable-static
-  make
+    make
 }
 
-package() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}"
+package_mate-sensors-applet() {
+    pkgdesc+=' (GTK2 version)'
+    conflicts=("${pkgbase}-gtk3")
+    depends=('dbus' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libatasmart' 'libnotify'
+             'lm_sensors' 'mate-panel>=1.14')
+
+    cd "${srcdir}/${pkgbase}-gtk2"
+    make DESTDIR="${pkgdir}" install
+}
+
+package_mate-sensors-applet-gtk3() {
+    pkgdesc+=' (GTK3 version)'
+    conflicts=("${pkgbase}")
+    depends=('dbus' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'libatasmart' 'libnotify'
+             'lm_sensors' 'mate-panel-gtk3>=1.14')
+
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

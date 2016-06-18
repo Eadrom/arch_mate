@@ -3,7 +3,7 @@
 
 _ver=1.14
 pkgbase=caja-extensions
-pkgname=(caja-extensions-common caja-gksu caja-image-converter caja-open-terminal caja-sendto caja-share)
+pkgname=(caja-extensions-common caja-gksu caja-image-converter caja-open-terminal caja-sendto caja-share caja-gksu-gtk3 caja-image-converter-gtk3 caja-open-terminal-gtk3 caja-sendto-gtk3 caja-share-gtk3)
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="MATE extensions for Caja (GTK2 version)"
@@ -11,15 +11,27 @@ url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('caja>=1.14' 'dbus-glib' 'gksu' 'gtk2' 'gupnp' 'imagemagick' 'samba')
-makedepends=('mate-common')
+makedepends=('mate-common' 'caja-gtk3')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('f6861379fd3ae72eae1394eb2f70f3db65cc85c7')
 
+prepare() {
+    cd "${srcdir}"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
+    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+}
+
 build() {
-    cd "${srcdir}/${pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
     PYTHON=/usr/bin/python2 ./configure \
         --prefix=/usr \
         --with-gtk=2.0
+    make
+
+    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    PYTHON=/usr/bin/python2 ./configure \
+        --prefix=/usr \
+        --with-gtk=3.0
     make
 }
 
@@ -27,7 +39,7 @@ package_caja-extensions-common() {
     pkgdesc="Caja extensions (common files)"
     depends=()
 
-    cd "${srcdir}/${pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
     make -C po DESTDIR="${pkgdir}" install
 }
 
@@ -37,7 +49,7 @@ package_caja-gksu() {
     groups=('mate-extra')
     conflicts=('caja-gksu-gtk3')
 
-    cd "${srcdir}/${pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
     make -C gksu DESTDIR="${pkgdir}" install
 }
 
@@ -47,7 +59,7 @@ package_caja-image-converter() {
     groups=('mate-extra')
     conflicts=('caja-image-converter-gtk3')
 
-    cd "${srcdir}/${pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
     make -C image-converter DESTDIR="${pkgdir}" install
 }
 
@@ -57,7 +69,7 @@ package_caja-open-terminal() {
     groups=('mate-extra')
     conflicts=('caja-open-terminal-gtk3')
 
-    cd "${srcdir}/${pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
     make -C open-terminal DESTDIR="${pkgdir}" install
 }
 
@@ -69,7 +81,7 @@ package_caja-sendto() {
                 'gajim: Support for sending to Jabber.')
     conflicts=('caja-sendto-gtk3')
 
-    cd "${srcdir}/${pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
     make -C sendto DESTDIR="${pkgdir}" install
 }
 
@@ -79,6 +91,58 @@ package_caja-share() {
     groups=('mate-extra')
     conflicts=('caja-share-gtk3')
     
-    cd "${srcdir}/${pkgbase}-${pkgver}"
+    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
+    make -C share DESTDIR="${pkgdir}" install
+}
+
+package_caja-gksu-gtk3() {
+    pkgdesc="Privilege granting extension for Caja using gksu (GTK3 version [EXPERIMENTAL])"
+    depends=('caja-gtk3' 'caja-extensions-common' 'gksu')
+    groups=('mate-extra-gtk3')
+    conflicts=('caja-gksu')
+
+    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    make -C gksu DESTDIR="${pkgdir}" install
+}
+
+package_caja-image-converter-gtk3() {
+    pkgdesc="A Caja extension for simple image conversions (GTK3 version [EXPERIMENTAL])"
+    depends=('caja-gtk3' 'caja-extensions-common' 'imagemagick')
+    groups=('mate-extra-gtk3')
+    conflicts=('caja-image-converter')
+
+    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    make -C image-converter DESTDIR="${pkgdir}" install
+}
+
+package_caja-open-terminal-gtk3() {
+    pkgdesc="A Caja extension for opening terminals in arbitrary local paths (GTK3 version [EXPERIMENTAL])"
+    depends=('caja-gtk3' 'caja-extensions-common' 'glib2')
+    groups=('mate-extra-gtk3')
+    conflicts=('caja-open-terminal')
+
+    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    make -C open-terminal DESTDIR="${pkgdir}" install
+}
+
+package_caja-sendto-gtk3() {
+    pkgdesc="A Caja extension for sending files (GTK3 version [EXPERIMENTAL])"
+    depends=('caja-gtk3' 'caja-extensions-common' 'dbus-glib' 'glib2' 'gupnp')
+    groups=('mate-extra-gtk3')
+    optdepends=('pidgin: Support for sending to instant messaging networks.'
+                'gajim: Support for sending to Jabber.')
+    conflicts=('caja-sendto')
+
+    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    make -C sendto DESTDIR="${pkgdir}" install
+}
+
+package_caja-share-gtk3() {
+    pkgdesc="A Caja extension to quickly share a folder (GTK3 version [EXPERIMENTAL])"
+    depends=('caja-gtk3' 'caja-extensions-common' 'samba')
+    groups=('mate-extra-gtk3')
+    conflicts=('caja-share')
+    
+    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
     make -C share DESTDIR="${pkgdir}" install
 }
