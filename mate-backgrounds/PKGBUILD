@@ -1,7 +1,7 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgname=mate-backgrounds
 pkgver=${_ver}.0
 pkgrel=1
@@ -12,7 +12,7 @@ license=('GPL')
 makedepends=('mate-common')
 groups=('mate' 'mate-gtk3')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgname}-${pkgver}.tar.xz")
-sha1sums=('0dd81659b362862f6da1f48900609a09133053bb')
+sha1sums=('a7929a9bcd40d14f26e1a33da6bf9d4aceadc15f')
 
 build() {
     cd "${srcdir}/${pkgname}-${pkgver}"
