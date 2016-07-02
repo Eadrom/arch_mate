@@ -1,9 +1,9 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgbase=mate-control-center
-pkgname=(${pkgbase} ${pkgbase}-gtk3)
+pkgname=(${pkgbase})
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="The Control Center for MATE"
@@ -11,35 +11,23 @@ url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('dbus-glib' 'dconf' 'desktop-file-utils' 'glib2' 'gsettings-desktop-schemas'
-         'gtk2' 'gtk-update-icon-cache' 'mate-desktop>=1.14' 'mate-menus>=1.14'
-         'mate-settings-daemon>=1.14' 'marco>=1.14' 'libgtop' 'libmatekbd>=1.14'
-         'libunique' 'librsvg' 'libxss' 'libxt' 'shared-mime-info' 'startup-notification')
-makedepends=('docbook2x' 'mate-common' 'yelp-tools' 'libmatekbd-gtk3' 'libunique3'
-             'marco-gtk3' 'mate-desktop-gtk3' 'mate-settings-daemon-gtk3')
+         'gtk3' 'gtk-update-icon-cache' 'mate-desktop>=1.15' 'mate-menus>=1.15'
+         'mate-settings-daemon>=1.15' 'marco>=1.15' 'libgtop' 
+         'libmatekbd>=1.15' 'libunique3' 'librsvg' 'libxss' 'libxt'
+         'shared-mime-info' 'startup-notification')
+makedepends=('docbook2x' 'mate-common>=1.15' 'yelp-tools' 'libmatekbd' 'libunique3'
+             'marco' 'mate-desktop>=1.15' 'mate-settings-daemon')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate')
-conflicts=("${pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
-sha1sums=('4e02c9461fbdf7acf4bca015199e8bfedb11a278')
+sha1sums=('a2715ee56e9ffad3a7a79090e25b5bdb058c85f3')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
-    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk2"
-    ./configure \
-        --prefix=/usr \
-        --sysconfdir=/etc \
-        --sbindir=/usr/bin \
-        --localstatedir=/var \
-        --with-gtk=2.0 \
-        --disable-static \
-        --disable-update-mimedb
-    make
-
     cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
@@ -53,26 +41,7 @@ build() {
 }
 
 package_mate-control-center() {
-    pkgdesc+=' (GTK2 version)'
-    conflicts=("${pkgbase}-gtk3")
-    depends=('dbus-glib' 'dconf' 'desktop-file-utils' 'glib2' 'gsettings-desktop-schemas'
-             'gtk2' 'gtk-update-icon-cache' 'mate-desktop>=1.14' 'mate-menus>=1.14'
-             'mate-settings-daemon>=1.14' 'marco>=1.14' 'libgtop' 'libmatekbd>=1.14'
-             'libunique' 'librsvg' 'libxss' 'libxt' 'shared-mime-info' 'startup-notification')
-
-    cd "${srcdir}/${pkgbase}-gtk2"
-    make DESTDIR="${pkgdir}" install
-    rm -f "${pkgdir}/usr/share/applications/mimeinfo.cache"
-}
-
-package_mate-control-center-gtk3() {
     pkgdesc+=' (GTK3 version)'
-    conflicts=("${pkgbase}")
-    depends=('dbus-glib' 'dconf' 'desktop-file-utils' 'glib2' 'gsettings-desktop-schemas'
-             'gtk3' 'gtk-update-icon-cache' 'mate-desktop-gtk3>=1.14' 'mate-menus>=1.14'
-             'mate-settings-daemon-gtk3>=1.14' 'marco-gtk3>=1.14' 'libgtop' 
-             'libmatekbd-gtk3>=1.14' 'libunique3' 'librsvg' 'libxss' 'libxt'
-             'shared-mime-info' 'startup-notification')
 
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
