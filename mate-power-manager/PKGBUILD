@@ -1,25 +1,24 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgbase=mate-power-manager
-pkgname=(${pkgbase} ${pkgbase}-gtk3)
+pkgname=(${pkgbase})
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="Power management tool for the MATE desktop"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'dconf' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libcanberra'
-         'libgnome-keyring' 'libnotify' 'libunique' 'mate-desktop>=1.14' 'upower')
-makedepends=('docbook2x' 'docbook-xml' 'mate-common' 'mate-panel' 'xmlto' 'yelp-tools'
-             'gtk3' 'libunique3' 'mate-desktop-gtk3>=1.14')
+depends=('dbus-glib' 'dconf' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'libcanberra'
+             'libgnome-keyring' 'libnotify' 'libunique3' 'mate-desktop>=1.15' 'upower')
+makedepends=('docbook2x' 'docbook-xml' 'mate-common' 'mate-panel>=1.15' 'xmlto' 'yelp-tools'
+             'gtk3' 'libunique3' 'mate-desktop>=1.15')
 optdepends=('mate-panel: Set brightness and inhibit power management from the panel'
             'yelp: for reading MATE help documents')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 groups=('mate-extra')
-conflicts=("${pkgbase}-gtk3")
-sha1sums=('286ac97658d18ea1fffa6e0a692a877727a44e41')
+sha1sums=('f8138b3833ed115bf8fabcea095eaf681bcee3fe')
 
 prepare() {
     cd "${srcdir}/${_pkgbase}-${pkgver}"
@@ -29,28 +28,13 @@ prepare() {
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
-    cd "${srcdir}/${pkgbase}-gtk2"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
+    cd "${srcdir}/${pkgbase}-gtk3"
     #Work around a problem where the .sgml fails to parse.
     sed -e 's:@HAVE_DOCBOOK2MAN_TRUE@.*::' -i man/Makefile.in
-    cd "${srcdir}"
-    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk2"
-    ./configure \
-        --prefix=/usr \
-        --libexecdir=/usr/lib/${_pkgbase} \
-        --sysconfdir=/etc \
-        --localstatedir=/var \
-        --sbindir=/usr/bin \
-        --enable-applets \
-        --enable-unique \
-        --with-gtk=2.0 \
-        --disable-strict
-    make
-
     cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
@@ -66,21 +50,7 @@ build() {
 }
 
 package_mate-power-manager() {
-    pkgdesc+=' (GTK2 version)'
-    conflicts=("${pkgbase}-gtk3")
-    depends=('dbus-glib' 'dconf' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libcanberra'
-             'libgnome-keyring' 'libnotify' 'libunique' 'mate-desktop>=1.14' 'upower')
-
-    cd "${srcdir}/${pkgbase}-gtk2"
-    make DESTDIR="${pkgdir}" install
-}
-
-package_mate-power-manager-gtk3() {
     pkgdesc+=' (GTK3 version)'
-    conflicts=("${pkgbase}")
-    depends=('dbus-glib' 'dconf' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'libcanberra'
-             'libgnome-keyring' 'libnotify' 'libunique3' 'mate-desktop-gtk3>=1.14' 'upower')
-
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }
