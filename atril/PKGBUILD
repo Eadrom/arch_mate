@@ -1,7 +1,7 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgbase=atril
 pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.1
@@ -11,9 +11,9 @@ url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('dconf' 'dbus' 'desktop-file-utils' 'glib2' 'gtk2' 'gtk3' 'gtk-update-icon-cache' 
-         'libsecret' 'libsm' 'libspectre' 'mate-desktop>=1.14' 'mathjax' 
+         'libsecret' 'libsm' 'libspectre' 'mate-desktop>=1.15' 'mathjax' 
          'poppler-glib' 'webkitgtk2' 'zlib')
-makedepends=('caja>=1.14' 'djvulibre' 'gobject-introspection' 'libgxps'
+makedepends=('caja>=1.15' 'djvulibre' 'gobject-introspection' 'libgxps'
              'mate-common' 'mate-desktop-gtk3' 'texlive-bin' 'yelp-tools' 'webkit2gtk')
 optdepends=('caja: Document Properties extension'
             'djvulibre: DjVu support'
@@ -69,7 +69,7 @@ build() {
 package_atril() {
     pkgdesc+=' (GTK2 version)'
     conflicts=("${pkgbase}-gtk3")
-    depends=('dconf' 'dbus' 'gtk2' 'libsecret' 'libsm' 'libspectre' 'mate-desktop>=1.14'
+    depends=('dconf' 'dbus' 'gtk2' 'libsecret' 'libsm' 'libspectre' 'mate-desktop>=1.15'
              'mathjax' 'poppler-glib' 'webkitgtk2' 'zlib')
 
     cd "${srcdir}/${_pkgbase}-${pkgver}"
@@ -79,7 +79,7 @@ package_atril() {
 package_atril-gtk3() {
     pkgdesc+=' (GTK2 version)'
     conflicts=("${pkgbase}-gtk2")
-    depends=('dconf' 'dbus' 'gtk3' 'libsecret' 'libsm' 'libspectre' 'mate-desktop-gtk3>=1.14'
+    depends=('dconf' 'dbus' 'gtk3' 'libsecret' 'libsm' 'libspectre' 'mate-desktop-gtk3>=1.15'
              'mathjax' 'poppler-glib' 'webkit2gtk' 'zlib')
 
     cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"

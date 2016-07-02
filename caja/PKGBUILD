@@ -1,7 +1,7 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 _pkgbase=caja
 pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.1
@@ -11,7 +11,7 @@ url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk2' 'gtk-update-icon-cache'
-         'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop>=1.14' 'shared-mime-info'
+         'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop>=1.15' 'shared-mime-info'
          'startup-notification')
 makedepends=('gobject-introspection' 'mate-common')
 optdepends=('gstreamer: automatic media playback when mouseover'
@@ -55,7 +55,7 @@ package_caja() {
     pkgdesc+=' (GTK2 version)'
     conflicts=("${pkgbase}-gtk3")
     depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk2' 'gtk-update-icon-cache'
-             'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop>=1.14' 'shared-mime-info'
+             'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop>=1.15' 'shared-mime-info'
              'startup-notification')
 
     cd "${srcdir}/${_pkgbase}-${pkgver}-gtk2"
@@ -66,7 +66,7 @@ package_caja-gtk3() {
     pkgdesc+=' (GTK3 version)'
     conflicts=("${pkgbase}")
     depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk3' 'gtk-update-icon-cache'
-             'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop-gtk3>=1.14' 'shared-mime-info'
+             'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop-gtk3>=1.15' 'shared-mime-info'
              'startup-notification')
 
     cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
