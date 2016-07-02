@@ -23,77 +23,53 @@ MACHINE=$(uname -m)
 
 # http://wiki.mate-desktop.org/status:1.10
 CORE=(
-    mate-common
-    mate-desktop
-    mate-user-guide
-    libmatekbd
-    libmatemixer
-    libmateweather
-    mate-icon-theme
-    caja
-    caja-gtk3
-    mate-polkit
-    marco
-    marco-gtk3
-    mate-settings-daemon
-    mate-settings-daemon-gtk3
-    mate-session-manager
-    mate-session-manager-gtk3
-    mate-menus
-    mate-panel
-    mate-panel-gtk3
-    mate-backgrounds
-    mate-themes
-    mate-notification-daemon
-    mate-control-center
-    mate-control-center-gtk3
-    mate-screensaver
-    mate-screensaver-gtk3
-    mate-media
-    mate-media-gtk3
-    mate-power-manager
-    mate-power-manager-gtk3
-    mate-system-monitor
+    mate-common  # In package list
+    mate-desktop  # In package list
+    mate-user-guide  # In package list
+    libmatekbd  # In package list
+    libmatemixer  # In package list
+    libmateweather  # In package list
+    mate-icon-theme  # In package list
+    caja  # In package list
+    mate-polkit  # In package list
+    marco  # In package list
+    mate-settings-daemon  # In package list
+    mate-session-manager  # In package list
+    mate-menus  # In package list
+    mate-panel  # In package list
+    mate-backgrounds  # In package list
+    mate-themes  # In package list
+    mate-notification-daemon  # In package list
+    mate-control-center  # In package list
+    mate-screensaver  # In package list
+    mate-media  # In package list
+    mate-power-manager  # In package list
+    mate-system-monitor  # In package list
 )
 
 EXTRA=(
-    atril
-    atril-gtk3
-    caja-extensions
-    caja-extensions-gtk3
-    engrampa
-    engrampa-gtk3
-    eom
-    eom-gtk3
-    mate-applets
-    mate-applets-gtk3
-    mate-icon-theme-faenza
-    mate-netbook
-    mate-netbook-gtk3
-    mate-netspeed
-    mate-netspeed-gtk3
-    mate-sensors-applet
-    mate-sensors-applet-gtk3
-    mate-terminal
-    mate-terminal-gtk3
-    mate-user-share
-    mate-user-share-gtk3
-    mate-utils
-    mate-utils-gtk3
-    mozo
-    mozo-gtk3
-    pluma
-    pluma-gtk3
-    python2-caja
-    python2-caja-gtk3
-    galculator
-    obex-data-server
-    blueman
+    atril  # In package list
+    caja-extensions  # In package list
+    engrampa  # In package list
+    eom  # In package list
+    mate-applets  # In package list
+    mate-icon-theme-faenza  # In package list
+    libxnvctrl  # In package list
+    mate-sensors-applet  # In package list
+    mate-terminal  # In package list
+    mate-user-share  # In package list
+    mate-utils  # In package list
+    mozo-gtk3  # In package list
+    pluma  # In package list
+    python2-caja  # In package list
+#    galculator  # Need to add this to my list of packages
+#    obex-data-server  # Need to add this to my list of packages
+#    blueman  # Need to add this to my list of packages
 )
 
 DISABLED=(gnome-main-menu)
 BUILD_ORDER=("${CORE[@]}" "${EXTRA[@]}")
-MATE_VER=1.9
+MATE_VER=1.14
 BASEDIR=$(dirname $(readlink -f ${0}))
 REPONAME="mate-unstable-dual"
 REPODIR="/var/local/${REPONAME}/${MATE_VER}"
@@ -331,7 +307,7 @@ function tree_check() {
 function tree_sync() {
     echo "Action : sync"
     # Modify this accordingly.
-    local RSYNC_UPSTREAM="mate@mate.flexion.org::mate-${MATE_VER}"
+    local RSYNC_UPSTREAM="user@server-name.com::mate-${MATE_VER}"  # TODO:  update to point at my server
     chown -R 1000:100 ${REPODIR}
     rsync -av --delete --progress ${REPODIR}/ "${RSYNC_UPSTREAM}/"
 }
@@ -369,6 +345,7 @@ function tree_run() {
 
     # We only arrive here if every package action completed successfully.
     if [ "${ACTION}" == "build" ]; then
+        # This won't work unless I become a TU and get access to pkgbuild.com; TODO:  look at alt location in mean time
         create_readme "http://pkgbuild.com/~flexiondotorg/${REPONAME}/${MATE_VER}" "${REPODIR}" "${REPONAME}"
         touch_dir "${REPODIR}"
     fi
