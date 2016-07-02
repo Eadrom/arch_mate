@@ -1,44 +1,31 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgbase=mate-panel
-pkgname=(${pkgbase} ${pkgbase}-gtk3)
-pkgver=${_ver}.1
+pkgname=(${pkgbase})
+pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="The MATE Panel"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
 depends=('dbus-glib' 'dconf' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libwnck'
-         'libcanberra' 'libice' 'libmateweather>=1.14' 'librsvg' 'libsm' 'libsoup'
-         'libxau' 'mate-menus>=1.14' 'mate-desktop>=1.14')
-makedepends=('gobject-introspection' 'mate-common' 'yelp-tools' 'gtk3'
-             'libmateweather-gtk3' 'libwnck3' 'mate-desktop-gtk3')
+         'libcanberra' 'libice' 'libmateweather>=1.15' 'librsvg' 'libsm' 'libsoup'
+         'libxau' 'mate-menus>=1.15' 'mate-desktop>=1.15')
+makedepends=('gobject-introspection' 'mate-common>=1.15' 'yelp-tools' 'gtk3'
+             'libmateweather>=1.15' 'libwnck3' 'mate-desktop>=1.15')
 optdepends=('yelp: for reading MATE help documents')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 groups=('mate')
-conflicts=("${pkgbase}-gtk3")
-sha1sums=('c7dac4caafef90b6f639b8a6a43ca1e98c1802cc')
+sha1sums=('58d011e2340d17e5c678725c22bfbddc96a6f7d4')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
-    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk2"
-    ./configure \
-        --prefix=/usr \
-        --libexecdir=/usr/lib/${pkgbase} \
-        --sysconfdir=/etc \
-        --localstatedir=/var \
-        --with-gtk=2.0 \
-        --enable-introspection \
-        --disable-static
-    make
-
     cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
@@ -52,23 +39,7 @@ build() {
 }
 
 package_mate-panel() {
-    pkgdesc+=' (GTK2 version)'
-    conflicts=("${pkgbase}-gtk3")
-    depends=('dbus-glib' 'dconf' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libwnck'
-             'libcanberra' 'libice' 'libmateweather>=1.14' 'librsvg' 'libsm' 'libsoup'
-             'libxau' 'mate-menus>=1.14' 'mate-desktop>=1.14')
-
-    cd "${srcdir}/${pkgbase}-gtk2"
-    make DESTDIR="${pkgdir}" install
-}
-
-package_mate-panel-gtk3() {
     pkgdesc+=' (GTK3 version)'
-    conflicts=("${pkgbase}")
-    depends=('dbus-glib' 'dconf' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'libwnck3'
-             'libcanberra' 'libice' 'libmateweather-gtk3>=1.14' 'librsvg' 'libsm' 'libsoup'
-             'libxau' 'mate-menus>=1.14' 'mate-desktop-gtk3>=1.14')
-
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }
