@@ -12,7 +12,7 @@ url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL' 'LGPL')
 depends=('dconf' 'dbus-glib' 'glib2' 'gtk3' 'gtk-update-icon-cache'
-         'libcanberra' 'libwnck' 'libwnck3' 'libnotify')
+         'libcanberra' 'libwnck3' 'libwnck3' 'libnotify')
 makedepends=('mate-common')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('97b49509dd798ad3e53fb5782c7cec1971190e61')

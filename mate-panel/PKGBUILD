@@ -10,7 +10,7 @@ pkgdesc="The MATE Panel"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'dconf' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libwnck'
+depends=('dbus-glib' 'dconf' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libwnck3'
          'libcanberra' 'libice' 'libmateweather>=1.15' 'librsvg' 'libsm' 'libsoup'
          'libxau' 'mate-menus>=1.15' 'mate-desktop>=1.15')
 makedepends=('gobject-introspection' 'mate-common>=1.15' 'yelp-tools' 'gtk3'

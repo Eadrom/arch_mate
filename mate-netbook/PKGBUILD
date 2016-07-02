@@ -1,37 +1,26 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgbase=mate-netbook
-pkgname=(${pkgbase} ${pkgbase}-gtk3)
+pkgname=(${pkgbase})
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="A simple window management tool"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('glib2' 'gtk2' 'libfakekey' 'libwnck' 'libunique' 'mate-panel>=1.14')
-makedepends=('mate-common' 'gtk3' 'libunique3' 'libwnck3' 'mate-panel-gtk3=>1.14')
+depends=('glib2' 'gtk3' 'libfakekey' 'libwnck3' 'libunique3' 'mate-common>=1.15' 'mate-panel>=1.15')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 conflicts=("${pkgbase}-gtk3")
-sha1sums=('9a26877c8c2707f5c3a5744f9fb74a7cc6d49b55')
+sha1sums=('9bf98002dfa5f7fb8043fc200a386201ffebb3e7')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
-    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk2"
-    ./configure \
-        --prefix=/usr \
-        --libexec=/usr/lib/${pkgbase} \
-        --sysconfdir=/etc \
-        --with-gtk=2.0 \
-        --disable-static
-    make
-
     cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
@@ -43,19 +32,7 @@ build() {
 }
 
 package_mate-netbook() {
-    pkgdesc+=' (GTK2 version)'
-    conflicts=("${pkgbase}-gtk3")
-    depends=('glib2' 'gtk2' 'libfakekey' 'libwnck' 'libunique' 'mate-panel>=1.14')
-
-    cd "${srcdir}/${pkgbase}-gtk2"
-    make DESTDIR="${pkgdir}" install
-}
-
-package_mate-netbook-gtk3() {
     pkgdesc+=' (GTK3 version)'
-    conflicts=("${pkgbase}")
-    depends=('glib2' 'gtk3' 'libfakekey' 'libwnck3' 'libunique3' 'mate-panel-gtk3>=1.14')
-
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }
