@@ -1,41 +1,29 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgbase=marco
-pkgname=(${pkgbase} ${pkgbase}-gtk3)
-pkgver=${_ver}.2
+pkgname=(${pkgbase})
+pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="A window manager for MATE"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('gtk2' 'glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
-         'mate-desktop>=1.14' 'startup-notification' 'zenity')
-makedepends=('mate-common' 'yelp-tools' 'mate-desktop-gtk3>=1.14')
+depends=('glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
+         'mate-desktop>=1.15' 'startup-notification' 'zenity')
+makedepends=('mate-common' 'yelp-tools')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate')
-conflicts=("${pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
-sha1sums=('dc4770dea2d09b046f027064329b94e6fd53367b')
+sha1sums=('44e29286538caac21597e543e208bd99254e7b9a')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
-    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk2"
-    ./configure \
-        --prefix=/usr \
-        --sysconfdir=/etc \
-        --localstatedir=/var \
-        --with-gtk=2.0 \
-        --enable-startup-notification \
-        --disable-static
-    make
-
     cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
@@ -48,20 +36,10 @@ build() {
 }
 
 package_marco() {
-    pkgdesc+=' (GTK2 version)'
-    conflicts=("${pkgbase}-gtk3")
-    depends=('gtk2' 'glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
-             'mate-desktop>=1.14' 'startup-notification' 'zenity')
-
-    cd "${srcdir}/${pkgbase}-gtk2"
-    make DESTDIR="${pkgdir}" install
-}
-
-package_marco-gtk3() {
     pkgdesc+=' (GTK3 version)'
     conflicts=("${pkgbase}")
     depends=('gtk3' 'glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
-             'mate-desktop-gtk3>=1.14' 'startup-notification' 'zenity')
+             'mate-desktop>=1.15' 'startup-notification' 'zenity')
 
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
