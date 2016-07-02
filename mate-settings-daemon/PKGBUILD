@@ -1,42 +1,31 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgbase=mate-settings-daemon
-pkgname=(${pkgbase} ${pkgbase}-gtk3)
+pkgname=(${pkgbase})
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="The MATE Settings daemon"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk2' 'gtk-update-icon-cache'
-         'libcanberra-pulse' 'libmatekbd>=1.14' 'libmatemixer' 'libnotify'
-         'libxt' 'mate-desktop>=1.14' 'nss' 'polkit')
-makedepends=('mate-common' 'gtk3' 'libmatekbd-gtk3>=1.14' 'mate-desktop-gtk3>=1.14')
+depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk3' 'gtk-update-icon-cache'
+         'libcanberra-pulse' 'libmatekbd>=1.15' 'libmatemixer' 'libnotify'
+         'libxt' 'mate-desktop>=1.15' 'nss' 'polkit')
+makedepends=('mate-common>=1.15' 'gtk3' 'libmatekbd>=1.15' 'mate-desktop>=1.15')
 groups=('mate')
 replaces=("${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
 conflicts=("${pkgbase}-gtk3" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
-sha1sums=('efb8782cbf68035613b2104e3b2197e96f6fcb03')
+sha1sums=('563c6b50669cde375e333aaba1f1919351372871')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
-    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk2"
-    ./configure \
-        --prefix=/usr \
-        --libexecdir=/usr/lib/${pkgbase} \
-        --sysconfdir=/etc \
-        --with-gtk=2.0 \
-        --enable-polkit \
-        --disable-static
-    make
-
     cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
@@ -49,23 +38,7 @@ build() {
 }
 
 package_mate-settings-daemon() {
-    pkgdesc+=' (GTK2 version)'
-    conflicts=("${pkgbase}-gtk3" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
-    depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk2' 'gtk-update-icon-cache'
-             'libcanberra-pulse' 'libmatekbd>=1.14' 'libmatemixer' 'libnotify'
-             'libxt' 'mate-desktop>=1.14' 'nss' 'polkit')
-
-    cd "${srcdir}/${pkgbase}-gtk2"
-    make DESTDIR="${pkgdir}" install
-}
-
-package_mate-settings-daemon-gtk3() {
     pkgdesc+=' (GTK3 version)'
-    conflicts=("${pkgbase}" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
-    depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk3' 'gtk-update-icon-cache'
-             'libcanberra-pulse' 'libmatekbd-gtk3>=1.14' 'libmatemixer' 'libnotify'
-             'libxt' 'mate-desktop-gtk3>=1.14' 'nss' 'polkit')
-
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }
