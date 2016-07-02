@@ -1,38 +1,26 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgbase=libmateweather
-pkgname=(${pkgbase} ${pkgbase}-gtk3)
+pkgname=(${pkgbase})
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="Provides access to weather information from the Internet."
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('LGPL')
-depends=('dconf' 'glib2' 'gtk2' 'gtk3' 'gtk-update-icon-cache' 'libsoup')
-makedepends=('mate-common')
+depends=('dconf' 'gtk3' 'libsoup' 'glib2' 'gtk-update-icon-cache')
+makedepends=('mate-common>=1.15')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgname}-${pkgver}.tar.xz")
-sha1sums=('8f94aee849e613f2e869f096bbc618180016d885')
+sha1sums=('ad4357c0a2e2d5c61b601b4b8fddbd409b82186f')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
-    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk2"
-    ./configure \
-        --prefix=/usr \
-        --sysconfdir=/etc \
-        --localstatedir=/var \
-        --with-gtk=2.0 \
-        --disable-static \
-        --disable-python \
-        --enable-locations-compression
-    make
-
     cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
@@ -46,19 +34,7 @@ build() {
 }
 
 package_libmateweather() {
-    pkgdesc+=' (GTK2 version)'
-    conflicts=("${pkgbase}-gtk3")
-    depends=('dconf' 'gtk2' 'libsoup')
-    
-    cd "${srcdir}/${pkgbase}-gtk2"
-    make DESTDIR="${pkgdir}" install
-}
-
-package_libmateweather-gtk3() {
     pkgdesc+=' (GTK3 version [EXPERIMENTAL])'
-    conflicts=("${pkgbase}")
-    depends=('dconf' 'gtk3' 'libsoup')
-    
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }
