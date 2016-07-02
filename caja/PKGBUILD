@@ -2,7 +2,7 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.14
-_pkgbase=caja
+pkgbase=caja
 pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.1
 pkgrel=1
@@ -17,8 +17,8 @@ makedepends=('gobject-introspection' 'mate-common')
 optdepends=('gstreamer: automatic media playback when mouseover'
             'gvfs-smb: To connect to Samba/Windows shares')
 groups=('mate')
-conflicts=("${_pkgbase}-gtk3")
-source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+conflicts=("${pkgbase}-gtk3")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('db84d1876031974e33db12eb0bea187639a11cc7')
 
 prepare() {
@@ -28,10 +28,10 @@ prepare() {
 }
 
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
     ./configure \
         --prefix=/usr \
-        --libexecdir=/usr/lib/${_pkgbase} \
+        --libexecdir=/usr/lib/${pkgbase} \
         --with-gtk=2.0 \
         --enable-unique \
         --enable-introspection \
@@ -39,10 +39,10 @@ build() {
         --disable-update-mimedb
     make
 
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${pkgbase}-${pkgver}-gtk3"
     ./configure \
         --prefix=/usr \
-        --libexecdir=/usr/lib/${_pkgbase} \
+        --libexecdir=/usr/lib/${pkgbase} \
         --with-gtk=3.0 \
         --enable-unique \
         --enable-introspection \
