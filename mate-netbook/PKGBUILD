@@ -9,10 +9,10 @@ pkgrel=1
 pkgdesc="A simple window management tool"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL')
 depends=('glib2' 'gtk3' 'libfakekey' 'libwnck3' 'libunique3' 'mate-common>=1.15' 'mate-panel>=1.15')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
-conflicts=("${pkgbase}-gtk3")
 sha1sums=('9bf98002dfa5f7fb8043fc200a386201ffebb3e7')
 
 prepare() {

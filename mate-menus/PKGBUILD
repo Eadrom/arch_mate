@@ -8,6 +8,7 @@ pkgrel=1
 pkgdesc="MATE menu specifications"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL')
 depends=('glib2' 'python2')
 makedepends=('gobject-introspection' 'mate-common>=1.15')

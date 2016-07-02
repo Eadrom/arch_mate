@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="Archive manipulator for MATE (GTK2 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('bzip2' 'desktop-file-utils' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'gzip'
          'libarchive' 'tar')
@@ -20,7 +21,6 @@ optdepends=('caja: file archiver extension'
             'unace: extraction tool for the proprietary ace archive format'
             'yelp: for reading MATE help documents')
 groups=('mate-extra')
-conflicts=("${pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz"
         fr-rpm-bsdtar.patch)
 sha1sums=('bbe49dc29e4f1cbf85d3cefab2a9056612970268'

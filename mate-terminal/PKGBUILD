@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="The MATE Terminal Emulator"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL')
 depends=('dbus' 'dconf' 'glib2' 'libsm' 'mate-desktop>=1.15' 'vte3')
 makedepends=('docbook2x' 'yelp-tools' 'vte3' 'mate-desktop>=1.15')

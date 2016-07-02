@@ -10,6 +10,7 @@ provides=('notification-daemon')
 pkgdesc="Notification daemon for MATE"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL' 'LGPL')
 depends=('dconf' 'dbus-glib' 'glib2' 'gtk3' 'gtk-update-icon-cache'
          'libcanberra' 'libwnck3' 'libwnck3' 'libnotify')

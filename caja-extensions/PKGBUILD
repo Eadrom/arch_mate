@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="MATE extensions for Caja (GTK3 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('caja>=1.15' 'dbus-glib' 'gksu' 'gtk3' 'gupnp' 'imagemagick' 'samba')
 makedepends=('mate-common' 'caja')
@@ -38,7 +39,7 @@ package_caja-gksu() {
     pkgdesc="Privilege granting extension for Caja using gksu (GTK3 version [EXPERIMENTAL])"
     depends=('caja' 'caja-extensions-common' 'gksu')
     groups=('mate-extra')
-    conflicts=('caja-gksu')
+    conflicts=('caja-gksu-gtk3')
 
     cd "${srcdir}/${_pkgbase}-gtk3"
     make -C gksu DESTDIR="${pkgdir}" install
@@ -48,7 +49,7 @@ package_caja-image-converter() {
     pkgdesc="A Caja extension for simple image conversions (GTK3 version [EXPERIMENTAL])"
     depends=('caja' 'caja-extensions-common' 'imagemagick')
     groups=('mate-extra')
-    conflicts=('caja-image-converter')
+    conflicts=('caja-image-converter-gtk3')
 
     cd "${srcdir}/${_pkgbase}-gtk3"
     make -C image-converter DESTDIR="${pkgdir}" install
@@ -58,7 +59,7 @@ package_caja-open-terminal() {
     pkgdesc="A Caja extension for opening terminals in arbitrary local paths (GTK3 version [EXPERIMENTAL])"
     depends=('caja' 'caja-extensions-common' 'glib2')
     groups=('mate-extra')
-    conflicts=('caja-open-terminal')
+    conflicts=('caja-open-terminal-gtk3')
 
     cd "${srcdir}/${_pkgbase}-gtk3"
     make -C open-terminal DESTDIR="${pkgdir}" install
@@ -70,7 +71,7 @@ package_caja-sendto() {
     groups=('mate-extra')
     optdepends=('pidgin: Support for sending to instant messaging networks.'
                 'gajim: Support for sending to Jabber.')
-    conflicts=('caja-sendto')
+    conflicts=('caja-sendto-gtk3')
 
     cd "${srcdir}/${_pkgbase}-gtk3"
     make -C sendto DESTDIR="${pkgdir}" install
@@ -80,7 +81,7 @@ package_caja-share() {
     pkgdesc="A Caja extension to quickly share a folder (GTK3 version [EXPERIMENTAL])"
     depends=('caja' 'caja-extensions-common' 'samba')
     groups=('mate-extra')
-    conflicts=('caja-share')
+    conflicts=('caja-share-gtk3')
     
     cd "${srcdir}/${_pkgbase}-gtk3"
     make -C share DESTDIR="${pkgdir}" install

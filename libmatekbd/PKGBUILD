@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="MATE keyboard library"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('LGPL')
 depends=('dconf' 'gtk3' 'iso-codes' 'libxklavier')
 makedepends=('mate-common>=1.15')

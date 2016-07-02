@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="The MATE Session Handler (GTK2 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL' 'LGPL')
 depends=('dbus-glib' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'libsm' 'libxtst'
          'mate-desktop>=1.15' 'mate-polkit>=1.15' 'mate-settings-daemon>=1.15'

@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="Common MATE utilities for viewing disk usage, logs and fonts, taking screenshots, managing dictionaries and searching files"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL')
 depends=('desktop-file-utils' 'glib2' 'gtk3' 'gtk-update-icon-cache'
          'libcanberra' 'libgtop' 'libsm' 'zlib')
@@ -16,7 +17,6 @@ makedepends=('mate-common' 'mate-panel>=1.15' 'rarian' 'yelp-tools' 'gtk3')
 optdepends=('mate-panel: Look up words in dictionaries from the panel'
             'yelp: for reading MATE help documents')
 groups=('mate-extra')
-conflicts=("${pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('20c863e3bc944cb291edb734389079a1330bc6cc')
 

@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="PolicyKit integration for the MATE desktop"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('LGPL')
 depends=('gtk3' 'polkit' 'accountsservice')
 makedepends=('gobject-introspection' 'mate-common>=1.15')

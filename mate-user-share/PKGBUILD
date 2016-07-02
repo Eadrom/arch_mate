@@ -9,13 +9,13 @@ pkgrel=1
 pkgdesc="User level public file sharing via WebDAV for MATE."
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL')
 depends=('dbus-glib' 'desktop-file-utils' 'dconf' 'glib2' 'gtk-update-icon-cache'
          'libunique3' 'mod_dnssd')
 makedepends=('caja>=1.15' 'libcanberra' 'libnotify' 'mate-common' 'yelp-tools' 'libunique3')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate-extra')
-conflicts=("${pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('149527ef51c89e5838efd0939204a5a5bd66e605')
 

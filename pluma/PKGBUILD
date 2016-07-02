@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="A powerful text editor for MATE (GTK2 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL')
 depends=('desktop-file-utils' 'enchant' 'glib2' 'gtk3' 'gtksourceview2' 'iso-codes'
          'libsm' 'mate-desktop>=1.15' 'gtksourceview3' 'python2-gobject' 'zenity')

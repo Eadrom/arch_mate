@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="A system monitor for MATE"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL')
 depends=('dconf' 'dbus-glib' 'glibmm' 'gtkmm3' 'libgtop' 'libwnck3' 'librsvg')
 makedepends=('docbook2x' 'mate-common>=1.15' 'yelp-tools')

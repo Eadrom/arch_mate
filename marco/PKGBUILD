@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="A window manager for MATE"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgbase}-gtk3")
 license=('GPL')
 depends=('glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
          'mate-desktop>=1.15' 'startup-notification' 'zenity')
@@ -37,10 +38,6 @@ build() {
 
 package_marco() {
     pkgdesc+=' (GTK3 version)'
-    conflicts=("${pkgbase}")
-    depends=('gtk3' 'glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
-             'mate-desktop>=1.15' 'startup-notification' 'zenity')
-
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

@@ -8,6 +8,7 @@ pkgrel=1
 pkgdesc="Mixer library for MATE Desktop"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+conflicts=("${pkgname}-gtk3")
 license=('LGPL')
 depends=('alsa-lib' 'libpulse')
 makedepends=('mate-common')
