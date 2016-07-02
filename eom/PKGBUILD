@@ -1,7 +1,7 @@
 # Maintainer:  eadrom <eadrom@archlinux.info>
 # Contributor:  Martin Wimpress <code@flexion.org>
 
-_ver=1.14
+_ver=1.15
 pkgbase=eom
 pkgname=(${pkgbase} ${pkgbase}-gtk3)
 pkgver=${_ver}.1
