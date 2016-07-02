@@ -2,22 +2,22 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.15
-pkgbase=caja-extensions
+_pkgbase=caja-extensions
 pkgname=(caja-extensions-common caja-gksu caja-image-converter caja-open-terminal caja-sendto caja-share)
 pkgver=${_ver}.0
 pkgrel=1
-pkgdesc="MATE extensions for Caja (GTK2 version)"
+pkgdesc="MATE extensions for Caja (GTK3 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('caja>=1.15' 'dbus-glib' 'gksu' 'gtk2' 'gupnp' 'imagemagick' 'samba')
+depends=('caja>=1.15' 'dbus-glib' 'gksu' 'gtk3' 'gupnp' 'imagemagick' 'samba')
 makedepends=('mate-common' 'caja')
-source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
-sha1sums=('f6861379fd3ae72eae1394eb2f70f3db65cc85c7')
+source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
+sha1sums=('f4299e99fe889038834ab9743cf6418f01a777cc')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
+    mv "${_pkgbase}-${pkgver}" "${_pkgbase}-gtk3"
 }
 
 build() {
@@ -26,6 +26,12 @@ build() {
         --prefix=/usr \
         --with-gtk=3.0
     make
+}
+
+package_caja-extensions-common() {
+    pkgdesc="Caja extensions (common files)"
+    cd "${srcdir}/${_pkgbase}-gtk3"
+    make -C po DESTDIR="${pkgdir}" install
 }
 
 package_caja-gksu() {
