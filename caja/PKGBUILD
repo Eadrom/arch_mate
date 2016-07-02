@@ -3,43 +3,30 @@
 
 _ver=1.15
 _pkgbase=caja
-pkgname=(${pkgbase} ${pkgbase}-gtk3)
-pkgver=${_ver}.1
+pkgname=${_pkgbase}
+pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="File manager for the MATE desktop"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk2' 'gtk-update-icon-cache'
-         'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop>=1.15' 'shared-mime-info'
+depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk3' 'gtk-update-icon-cache'
+         'gvfs' 'libexif' 'libunique3' 'libxt' 'mate-desktop>=1.15' 'shared-mime-info'
          'startup-notification')
 makedepends=('gobject-introspection' 'mate-common')
 optdepends=('gstreamer: automatic media playback when mouseover'
             'gvfs-smb: To connect to Samba/Windows shares')
 groups=('mate')
-conflicts=("${_pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
-sha1sums=('db84d1876031974e33db12eb0bea187639a11cc7')
+sha1sums=('e6381cd67f7d5c3a6e426d82814cac3f0618bda4')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk2"
-    cp -a "${pkgbase}-gtk2" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${_pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk2"
-    ./configure \
-        --prefix=/usr \
-        --libexecdir=/usr/lib/${_pkgbase} \
-        --with-gtk=2.0 \
-        --enable-unique \
-        --enable-introspection \
-        --disable-static \
-        --disable-update-mimedb
-    make
-
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
         --libexecdir=/usr/lib/${_pkgbase} \
@@ -52,23 +39,7 @@ build() {
 }
 
 package_caja() {
-    pkgdesc+=' (GTK2 version)'
-    conflicts=("${pkgbase}-gtk3")
-    depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk2' 'gtk-update-icon-cache'
-             'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop>=1.15' 'shared-mime-info'
-             'startup-notification')
-
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk2"
-    make DESTDIR="${pkgdir}" install
-}
-
-package_caja-gtk3() {
     pkgdesc+=' (GTK3 version)'
-    conflicts=("${pkgbase}")
-    depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk3' 'gtk-update-icon-cache'
-             'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop-gtk3>=1.15' 'shared-mime-info'
-             'startup-notification')
-
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }
