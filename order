@@ -22,6 +22,7 @@ mate-media
 mate-power-manager
 mate-screensaver
 mate-system-monitor
+mate-notification-daemon
 mate-user-guide
 mate-user-share
 mate-utils
