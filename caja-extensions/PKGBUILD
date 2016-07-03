@@ -22,13 +22,13 @@ prepare() {
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     PYTHON=/usr/bin/python2 ./configure \
         --prefix=/usr \
         --with-gtk=2.0
     make
 
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${pkgbase}-gtk3"
     PYTHON=/usr/bin/python2 ./configure \
         --prefix=/usr \
         --with-gtk=3.0
@@ -39,7 +39,7 @@ package_caja-extensions-common() {
     pkgdesc="Caja extensions (common files)"
     depends=()
 
-    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     make -C po DESTDIR="${pkgdir}" install
 }
 
@@ -49,7 +49,7 @@ package_caja-gksu() {
     groups=('mate-extra')
     conflicts=('caja-gksu-gtk3')
 
-    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     make -C gksu DESTDIR="${pkgdir}" install
 }
 
@@ -59,7 +59,7 @@ package_caja-image-converter() {
     groups=('mate-extra')
     conflicts=('caja-image-converter-gtk3')
 
-    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     make -C image-converter DESTDIR="${pkgdir}" install
 }
 
@@ -69,7 +69,7 @@ package_caja-open-terminal() {
     groups=('mate-extra')
     conflicts=('caja-open-terminal-gtk3')
 
-    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     make -C open-terminal DESTDIR="${pkgdir}" install
 }
 
@@ -81,7 +81,7 @@ package_caja-sendto() {
                 'gajim: Support for sending to Jabber.')
     conflicts=('caja-sendto-gtk3')
 
-    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     make -C sendto DESTDIR="${pkgdir}" install
 }
 
@@ -91,7 +91,7 @@ package_caja-share() {
     groups=('mate-extra')
     conflicts=('caja-share-gtk3')
     
-    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     make -C share DESTDIR="${pkgdir}" install
 }
 
@@ -101,7 +101,7 @@ package_caja-gksu-gtk3() {
     groups=('mate-extra-gtk3')
     conflicts=('caja-gksu')
 
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${pkgbase}-gtk3"
     make -C gksu DESTDIR="${pkgdir}" install
 }
 
@@ -111,7 +111,7 @@ package_caja-image-converter-gtk3() {
     groups=('mate-extra-gtk3')
     conflicts=('caja-image-converter')
 
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${pkgbase}-gtk3"
     make -C image-converter DESTDIR="${pkgdir}" install
 }
 
@@ -121,7 +121,7 @@ package_caja-open-terminal-gtk3() {
     groups=('mate-extra-gtk3')
     conflicts=('caja-open-terminal')
 
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${pkgbase}-gtk3"
     make -C open-terminal DESTDIR="${pkgdir}" install
 }
 
@@ -133,7 +133,7 @@ package_caja-sendto-gtk3() {
                 'gajim: Support for sending to Jabber.')
     conflicts=('caja-sendto')
 
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${pkgbase}-gtk3"
     make -C sendto DESTDIR="${pkgdir}" install
 }
 
@@ -143,6 +143,6 @@ package_caja-share-gtk3() {
     groups=('mate-extra-gtk3')
     conflicts=('caja-share')
     
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${pkgbase}-gtk3"
     make -C share DESTDIR="${pkgdir}" install
 }

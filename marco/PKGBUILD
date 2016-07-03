@@ -12,10 +12,9 @@ arch=('i686' 'x86_64')
 license=('GPL')
 depends=('gtk2' 'glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
          'mate-desktop>=1.14' 'startup-notification' 'zenity')
-makedepends=('mate-common' 'yelp-tools' 'mate-desktop-gtk3>=1.14')
+makedepends=('mate-common' 'yelp-tools' 'mate-desktop>=1.14')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate')
-conflicts=("${pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('dc4770dea2d09b046f027064329b94e6fd53367b')
 
@@ -52,10 +51,11 @@ package_marco() {
     conflicts=("${pkgbase}-gtk3")
     depends=('gtk2' 'glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
              'mate-desktop>=1.14' 'startup-notification' 'zenity')
+    provides=('marco=1.14.2')
 
     cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
-    provides=('marco=1.14.2')
+
 }
 
 package_marco-gtk3() {

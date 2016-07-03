@@ -10,13 +10,11 @@ pkgdesc="The MATE Settings daemon"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL')
-depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk2' 'gtk-update-icon-cache'
-         'libcanberra-pulse' 'libmatekbd>=1.14' 'libmatemixer' 'libnotify'
-         'libxt' 'mate-desktop>=1.14' 'nss' 'polkit')
-makedepends=('mate-common' 'gtk3' 'libmatekbd-gtk3>=1.14' 'mate-desktop-gtk3>=1.14')
+makedepends=('mate-common>=1.14' 'glib2' 'gtk2' 'gtk3' 'dbus-glib' 'mate-desktop>=1.14'
+             'libmatekbd>=1.14' 'libxklavier' 'libmatemixer>=1.14' 'libcanberra-pulse'
+             'nss' 'libnotify')
 groups=('mate')
 replaces=("${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
-conflicts=("${pkgbase}-gtk3" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('efb8782cbf68035613b2104e3b2197e96f6fcb03')
 
@@ -39,12 +37,14 @@ build() {
 
     cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
-        --prefix=/usr \
-        --libexecdir=/usr/lib/${pkgbase} \
-        --sysconfdir=/etc \
-        --with-gtk=3.0 \
-        --enable-polkit \
-        --disable-static
+		--prefix=/usr \
+		--bindir=/usr/bin \
+		--sbindir=/usr/bin \
+		--libexecdir=/usr/lib/${pkgname} \
+		--sysconfdir=/etc \
+		--with-gtk=3.0 \
+		--enable-polkit \
+		--disable-static
     make
 }
 
@@ -52,7 +52,7 @@ package_mate-settings-daemon() {
     pkgdesc+=' (GTK2 version)'
     conflicts=("${pkgbase}-gtk3" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
     depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk2' 'gtk-update-icon-cache'
-             'libcanberra-pulse' 'libmatekbd>=1.14' 'libmatemixer' 'libnotify'
+             'libcanberra-pulse' 'libmatekbd>=1.14' 'libmatemixer>=1.14' 'libnotify'
              'libxt' 'mate-desktop>=1.14' 'nss' 'polkit')
     provides=('mate-settings-daemon=1.14.0')
 
@@ -64,7 +64,7 @@ package_mate-settings-daemon-gtk3() {
     pkgdesc+=' (GTK3 version)'
     conflicts=("${pkgbase}" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
     depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk3' 'gtk-update-icon-cache'
-             'libcanberra-pulse' 'libmatekbd-gtk3>=1.14' 'libmatemixer' 'libnotify'
+             'libcanberra-pulse' 'libmatekbd>=1.14' 'libmatemixer>=1.14' 'libnotify'
              'libxt' 'mate-desktop>=1.14' 'nss' 'polkit')
     provides=('mate-settings-daemon=1.14.0')
 
