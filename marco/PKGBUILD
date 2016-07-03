@@ -55,13 +55,15 @@ package_marco() {
 
     cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
+    provides=('marco=1.14.2')
 }
 
 package_marco-gtk3() {
     pkgdesc+=' (GTK3 version)'
     conflicts=("${pkgbase}")
     depends=('gtk3' 'glib2' 'libcanberra' 'libgtop' 'libice' 'libsm' 'libxt'
-             'mate-desktop-gtk3>=1.14' 'startup-notification' 'zenity')
+             'mate-desktop>=1.14' 'startup-notification' 'zenity')
+    provides=('marco=1.14.2')
 
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install

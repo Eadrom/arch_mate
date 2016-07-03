@@ -50,16 +50,18 @@ package_mate-polkit() {
     groups=('mate')
     conflicts=("${pkgbase}-gtk3")
     depends=('gtk2' 'polkit')
+    provides=('mate-polkit=1.14.0')
 
     cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
 }
 
 package_mate-polkit-gtk3() {
-    pkgdesc+=' (GTK3 version [EXPERIMENTAL])'
+    pkgdesc+=' (GTK3 version)'
     groups=('mate-gtk3')
     conflicts=("${pkgbase}")
     depends=('gtk3' 'polkit')
+    provides=('mate-polkit=1.14.0')
 
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install

@@ -44,7 +44,6 @@ build() {
         --prefix=/usr \
         --libexecdir=/usr/lib/${pkgbase} \
         --with-gtk=3.0 \
-        --enable-unique \
         --enable-introspection \
         --disable-static \
         --disable-update-mimedb

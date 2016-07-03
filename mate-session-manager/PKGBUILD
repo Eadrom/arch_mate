@@ -13,13 +13,12 @@ license=('GPL' 'LGPL')
 depends=('dbus-glib' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libsm' 'libxtst'
          'mate-desktop>=1.14' 'mate-polkit>=1.14' 'mate-settings-daemon>=1.14'
          'ttf-dejavu' 'xdg-user-dirs')
-makedepends=('mate-common' 'xmlto' 'xtrans' 'gtk3' 'mate-desktop-gtk3>=1.14' 'mate-polkit-gtk3>=1.14' 'mate-settings-daemon-gtk3>=1.14')
+makedepends=('mate-common' 'xmlto' 'xtrans' 'gtk3' 'mate-desktop>=1.14' 'mate-polkit>=1.14' 'mate-settings-daemon>=1.14')
 optdepends=('lightdm-gtk-greeter: A lightweight display manager'
             'onboard: On-screen keyboard useful for mobility impaired users'
             'orca: Screen reader for blind or visually impaired individuals'
             'xdg-user-dirs-gtk: Add autostart that prompts to rename user directories when switching locales')
 groups=('mate')
-conflicts=("${pkgbase}-gtk3")
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
 sha1sums=('65057b49c823368c176bb13dcc7c87a002d6b34b')
 
@@ -57,6 +56,7 @@ package_mate-session-manager() {
     depends=('dbus-glib' 'glib2' 'gtk2' 'gtk-update-icon-cache' 'libsm' 'libxtst'
              'mate-desktop>=1.14' 'mate-polkit>=1.14' 'mate-settings-daemon>=1.14'
              'ttf-dejavu' 'xdg-user-dirs')
+    provides=('mate-session-manager=1.14.0')
 
     cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
@@ -66,8 +66,9 @@ package_mate-session-manager-gtk3() {
     pkgdesc+=' (GTK3 version)'
     conflicts=("${pkgbase}")
     depends=('dbus-glib' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'libsm' 'libxtst'
-             'mate-desktop-gtk3>=1.14' 'mate-polkit-gtk3>=1.14'
-             'mate-settings-daemon-gtk3>=1.14' 'ttf-dejavu' 'xdg-user-dirs')
+             'mate-desktop>=1.14' 'mate-polkit>=1.14'
+             'mate-settings-daemon>=1.14' 'ttf-dejavu' 'xdg-user-dirs')
+    provides=('mate-session-manager=1.14.0')
 
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install

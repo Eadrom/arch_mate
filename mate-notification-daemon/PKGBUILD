@@ -46,6 +46,7 @@ package_mate-notification-daemon() {
     groups=('mate')
     conflicts=("${pkgbase}-gtk3")
     depends=('dconf' 'dbus-glib' 'gtk2' 'libcanberra' 'libwnck' 'libnotify')
+    provides=('mate-notification-daemon=1.14.0')
 
     cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
@@ -56,6 +57,7 @@ package_mate-notification-daemon-gtk3() {
     groups=('mate-gtk3')
     conflicts=("${pkgbase}")
     depends=('dconf' 'dbus-glib' 'gtk3' 'libcanberra' 'libwnck3' 'libnotify')
+    provides=('mate-notification-daemon=1.14.0')
 
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install

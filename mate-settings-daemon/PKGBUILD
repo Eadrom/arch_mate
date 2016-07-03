@@ -54,6 +54,7 @@ package_mate-settings-daemon() {
     depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk2' 'gtk-update-icon-cache'
              'libcanberra-pulse' 'libmatekbd>=1.14' 'libmatemixer' 'libnotify'
              'libxt' 'mate-desktop>=1.14' 'nss' 'polkit')
+    provides=('mate-settings-daemon=1.14.0')
 
     cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
@@ -64,7 +65,8 @@ package_mate-settings-daemon-gtk3() {
     conflicts=("${pkgbase}" "${pkgbase}-gstreamer" "${pkgbase}-pulseaudio")
     depends=('dbus-glib' 'dconf' 'fontconfig' 'glib2' 'gtk3' 'gtk-update-icon-cache'
              'libcanberra-pulse' 'libmatekbd-gtk3>=1.14' 'libmatemixer' 'libnotify'
-             'libxt' 'mate-desktop-gtk3>=1.14' 'nss' 'polkit')
+             'libxt' 'mate-desktop>=1.14' 'nss' 'polkit')
+    provides=('mate-settings-daemon=1.14.0')
 
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install

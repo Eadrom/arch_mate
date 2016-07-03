@@ -23,28 +23,28 @@ MACHINE=$(uname -m)
 
 # http://wiki.mate-desktop.org/status:1.10
 CORE=(
-    mate-common  # In package list
-    mate-desktop  # In package list
-    mate-user-guide  # In package list
-    libmatekbd  # In package list
-    libmatemixer  # In package list
-    libmateweather  # In package list
-    mate-icon-theme  # In package list
-    caja  # In package list
-    mate-polkit  # In package list
-    marco  # In package list
-    mate-settings-daemon  # In package list
-    mate-session-manager  # In package list
-    mate-menus  # In package list
-    mate-panel  # In package list
-    mate-backgrounds  # In package list
-    mate-themes  # In package list
-    mate-notification-daemon  # In package list
-    mate-control-center  # In package list
-    mate-screensaver  # In package list
-    mate-media  # In package list
-    mate-power-manager  # In package list
-    mate-system-monitor  # In package list
+    mate-common
+    mate-desktop
+    mate-user-guide
+    libmatekbd
+    libmatemixer
+    libmateweather
+    mate-icon-theme
+    caja
+    mate-polkit
+    marco
+    mate-settings-daemon
+    mate-session-manager
+    mate-menus
+    mate-panel
+    mate-backgrounds
+    mate-themes
+    mate-notification-daemon
+    mate-control-center
+    mate-screensaver
+    mate-media
+    mate-power-manager
+    mate-system-monitor
 )
 
 EXTRA=(
