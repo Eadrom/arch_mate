@@ -10,8 +10,8 @@ pkgdesc="Library with common API for various MATE modules"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 license=('GPL' 'LGPL')
-depends=('dconf' 'glib2' 'gtk2' 'gtk3' 'startup-notification')
-makedepends=('gobject-introspection' 'mate-common' 'yelp-tools')
+#depends=('dconf' 'glib2' 'gtk2' 'gtk3' 'startup-notification')
+makedepends=('gobject-introspection' 'mate-common' 'yelp-tools' 'dconf' 'gtk2' 'gtk3')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgname}-${pkgver}.tar.xz")
 sha1sums=('3cb4b0cffcd20528140c289c2e1d337a6b4f591c')
 
@@ -45,7 +45,8 @@ package_mate-desktop() {
     pkgdesc+=' (GTK2 version)'
     groups=('mate')
     conflicts=("${pkgbase}-gtk3")
-    depends=('dconf' 'gtk2' 'startup-notification')
+    depends=('dconf' 'glib2' 'gtk2' 'startup-notification')
+    provides=('mate-desktop=1.14.1')
 
     cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
@@ -55,7 +56,8 @@ package_mate-desktop-gtk3() {
     pkgdesc+=' (GTK3 version [EXPERIMENTAL])'
     groups=('mate-gtk3')
     conflicts=("${pkgbase}")
-    depends=('dconf' 'gtk3' 'startup-notification')
+    depends=('dconf' 'glib2' 'gtk3' 'startup-notification')
+    provides=('mate-desktop=1.14.1')
 
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install

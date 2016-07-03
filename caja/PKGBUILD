@@ -12,7 +12,7 @@ arch=('i686' 'x86_64')
 license=('GPL')
 depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk2' 'gtk-update-icon-cache'
          'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop>=1.14' 'shared-mime-info'
-         'startup-notification')
+         'startup-notification' 'libunique3')
 makedepends=('gobject-introspection' 'mate-common')
 optdepends=('gstreamer: automatic media playback when mouseover'
             'gvfs-smb: To connect to Samba/Windows shares')
@@ -28,7 +28,7 @@ prepare() {
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     ./configure \
         --prefix=/usr \
         --libexecdir=/usr/lib/${pkgbase} \
@@ -39,7 +39,7 @@ build() {
         --disable-update-mimedb
     make
 
-    cd "${srcdir}/${pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
         --libexecdir=/usr/lib/${pkgbase} \
@@ -57,8 +57,9 @@ package_caja() {
     depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk2' 'gtk-update-icon-cache'
              'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop>=1.14' 'shared-mime-info'
              'startup-notification')
+    provides=('caja=1.14.1')
 
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk2"
+    cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
 }
 
@@ -66,9 +67,10 @@ package_caja-gtk3() {
     pkgdesc+=' (GTK3 version)'
     conflicts=("${pkgbase}")
     depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk3' 'gtk-update-icon-cache'
-             'gvfs' 'libexif' 'libunique' 'libxt' 'mate-desktop-gtk3>=1.14' 'shared-mime-info'
+             'gvfs' 'libexif' 'libunique3' 'libxt' 'mate-desktop>=1.14' 'shared-mime-info'
              'startup-notification')
+    provides=('caja=1.14.1')
 
-    cd "${srcdir}/${_pkgbase}-${pkgver}-gtk3"
+    cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

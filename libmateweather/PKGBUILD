@@ -49,6 +49,7 @@ package_libmateweather() {
     pkgdesc+=' (GTK2 version)'
     conflicts=("${pkgbase}-gtk3")
     depends=('dconf' 'gtk2' 'libsoup')
+    provides=('libmateweather=1.14.0')
     
     cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
@@ -58,6 +59,7 @@ package_libmateweather-gtk3() {
     pkgdesc+=' (GTK3 version [EXPERIMENTAL])'
     conflicts=("${pkgbase}")
     depends=('dconf' 'gtk3' 'libsoup')
+    provides=('libmateweather=1.14.0')
     
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install

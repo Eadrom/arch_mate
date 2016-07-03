@@ -41,6 +41,7 @@ package_libmatekbd() {
     pkgdesc+=' (GTK2 version)'
     conflicts=("${pkgbase}-gtk3")
     depends=('dconf' 'gtk2' 'iso-codes' 'libxklavier')
+    provides=('libmatekbd=1.14.1')
     
     cd "${srcdir}/${pkgbase}-gtk2"
     make DESTDIR="${pkgdir}" install
@@ -50,6 +51,7 @@ package_libmatekbd-gtk3() {
     pkgdesc+=' (GTK3 version [EXPERIMENTAL])'
     conflicts=("${pkgbase}")
     depends=('dconf' 'gtk3' 'iso-codes' 'libxklavier')
+    provides=('libmatekbd=1.14.1')
     
     cd "${srcdir}/${pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
