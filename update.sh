@@ -1,6 +1,14 @@
-export name=$1
-url="$2""SHA1SUMS"
-upd=$3
+if [ ! -z $@ ]
+  then
+    name=$1
+    url=$2
+    dl=$3
+    upd=$4
+  else
+    source ./update.conf
+fi
+
+url="$url$dl"
 
 declare -a shas
 declare -a pkgs
@@ -28,7 +36,7 @@ update_ver (){
 
 notify_user () {
 echo "$name was updated" >> ~/maintain.txt
-manipulate $(diff SHA1SUMS.old SHA1SUMS | grep '>')
+manipulate $(diff $dl.old $dl | grep '>')
 }
 
 mod_pkg () {
@@ -56,11 +64,12 @@ if [ ! -e ~/.cache/notify-$name ] ; then mkdir ~/.cache/notify-$name
 cd ~/.cache/notify-$name
 
 if [ "$first_run" == '1' ]
-  then wget $url 2> /dev/null ; echo $(sha1sum SHA1SUMS) > ./sha1
-  else mv SHA1SUMS SHA1SUMS.old
+  then wget $url 2> /dev/null ; echo $(sha1sum $dl) > ./sha1
+    echo First run
+  else mv $dl $dl.old
     wget $url 2> /dev/null
     a=$(cat ./sha1)
-    b=$(echo $(sha1sum SHA1SUMS))
+    b=$(echo $(sha1sum $dl))
     if [ "$a" == "$b" ]
       then echo Same
       else notify_user 
@@ -70,6 +79,6 @@ if [ "$first_run" == '1' ]
         fi
         echo $b > ./sha1
   fi
-  rm SHA1SUMS.old
+  rm $dl.old
 fi
 
