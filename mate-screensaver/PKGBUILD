@@ -2,14 +2,15 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.15
-pkgbase=mate-screensaver
-pkgname=(${pkgbase})
+_pkgbase=mate-screensaver
+pkgname=(${_pkgbase})
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc='Screensaver for MATE'
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
-conflicts=("${pkgbase}-gtk3")
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
+conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('dbus-glib' 'glib2' 'libmatekbd>=1.15' 'libnotify' 'libxss'
          'mate-desktop>=1.15' 'mate-menus>=1.15' 'mate-session-manager>=1.15')
@@ -17,19 +18,19 @@ optdepends=('mate-power-manager: Add power management support.'
             'mate-screensaver-hacks: Additional screensavers.'
             'rss-glx: Really slick screensavers.')
 groups=('mate-extra')
-source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('8cf4d7faff9b9bec37d007cd1320673205824b66')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${_pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
-        --libexecdir=/usr/lib/${pkgbase} \
+        --libexecdir=/usr/lib/${_pkgbase} \
         --sysconfdir=/etc \
         --with-xscreensaverdir=/usr/share/xscreensaver/config \
         --with-xscreensaverhackdir=/usr/lib/xscreensaver \
@@ -44,6 +45,6 @@ build() {
 
 package_mate-screensaver() {
     pkgdesc+=' (GTK3 version)'
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

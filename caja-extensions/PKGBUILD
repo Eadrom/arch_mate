@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="MATE extensions for Caja (GTK3 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
 conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('caja>=1.15' 'dbus-glib' 'gksu' 'gtk3' 'gupnp' 'imagemagick' 'samba')

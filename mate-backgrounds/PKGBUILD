@@ -2,12 +2,14 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.15
-pkgname=mate-backgrounds
+_pkgbase=mate-backgrounds
+pkgname="${_pkgbase}"
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="Background images and data for MATE"
 url="http://mate-desktop.org"
 arch=('any')
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
 license=('GPL')
 makedepends=('mate-common')
 groups=('mate' 'mate-gtk3')

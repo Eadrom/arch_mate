@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="Archive manipulator for MATE (GTK2 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
 conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('bzip2' 'desktop-file-utils' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'gzip'
@@ -28,7 +29,7 @@ sha1sums=('bbe49dc29e4f1cbf85d3cefab2a9056612970268'
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${_pkgbase}-gtk3"
+    mv "${_pkgbase}-${pkgver}" "${_pkgbase}-gtk3"
     cd "${srcdir}/${_pkgbase}-gtk3"
     # This patch 'depends' on libarchive
     patch -Np1 -i "${srcdir}/fr-rpm-bsdtar.patch"

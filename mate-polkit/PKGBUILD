@@ -2,14 +2,15 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.15
-pkgbase=mate-polkit
-pkgname=(${pkgbase})
+_pkgbase=mate-polkit
+pkgname=(${_pkgbase})
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="PolicyKit integration for the MATE desktop"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
-conflicts=("${pkgbase}-gtk3")
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
+conflicts=("${_pkgbase}-gtk3")
 license=('LGPL')
 depends=('gtk3' 'polkit' 'accountsservice')
 makedepends=('gobject-introspection' 'mate-common>=1.15')
@@ -18,14 +19,14 @@ sha1sums=('f70a0efc5c484f265eea08f2a8315b2cfc4cb99f')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${_pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
-        --libexecdir=/usr/lib/${pkgbase} \
+        --libexecdir=/usr/lib/${_pkgbase} \
         --sysconfdir=/etc \
         --localstatedir=/var \
         --with-gtk=3.0 \
@@ -37,6 +38,6 @@ build() {
 package_mate-polkit() {
     pkgdesc+=' (GTK3 version [EXPERIMENTAL])'
     groups=('mate')
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

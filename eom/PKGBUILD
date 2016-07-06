@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="An image viewing and cataloging program for MATE"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
 conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('dbus-glib' 'desktop-file-utils' 'glib2' 'gobject-introspection-runtime'

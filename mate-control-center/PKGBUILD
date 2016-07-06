@@ -2,14 +2,15 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.15
-pkgbase=mate-control-center
-pkgname=(${pkgbase})
+_pkgbase=mate-control-center
+pkgname=(${_pkgbase})
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="The Control Center for MATE"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
-conflicts=("${pkgbase}-gtk3")
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
+conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('dbus-glib' 'dconf' 'desktop-file-utils' 'glib2' 'gsettings-desktop-schemas'
          'gtk3' 'gtk-update-icon-cache' 'mate-desktop>=1.15' 'mate-menus>=1.15'
@@ -20,16 +21,16 @@ makedepends=('docbook2x' 'mate-common>=1.15' 'yelp-tools' 'libmatekbd' 'libuniqu
              'marco' 'mate-desktop>=1.15' 'mate-settings-daemon')
 optdepends=('yelp: for reading MATE help documents')
 groups=('mate')
-source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('a2715ee56e9ffad3a7a79090e25b5bdb058c85f3')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${_pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
         --sysconfdir=/etc \
@@ -44,7 +45,7 @@ build() {
 package_mate-control-center() {
     pkgdesc+=' (GTK3 version)'
 
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
     rm -f "${pkgdir}/usr/share/applications/mimeinfo.cache"
 }

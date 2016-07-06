@@ -2,29 +2,30 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.15
-pkgbase=mate-netbook
-pkgname=(${pkgbase})
+_pkgbase=mate-netbook
+pkgname=(${_pkgbase})
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="A simple window management tool"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
-conflicts=("${pkgbase}-gtk3")
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
+conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('glib2' 'gtk3' 'libfakekey' 'libwnck3' 'libunique3' 'mate-common>=1.15' 'mate-panel>=1.15')
-source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('9bf98002dfa5f7fb8043fc200a386201ffebb3e7')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
+    mv "${pkgname}-${pkgver}" "${_pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
-        --libexec=/usr/lib/${pkgbase} \
+        --libexec=/usr/lib/${_pkgbase} \
         --sysconfdir=/etc \
         --with-gtk=3.0 \
         --disable-static
@@ -33,6 +34,6 @@ build() {
 
 package_mate-netbook() {
     pkgdesc+=' (GTK3 version)'
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }

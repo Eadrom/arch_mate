@@ -9,6 +9,7 @@ pkgrel=1
 pkgdesc="File manager for the MATE desktop"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
 conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('dbus' 'desktop-file-utils' 'exempi' 'glib2' 'gtk3' 'gtk-update-icon-cache'
@@ -23,7 +24,7 @@ sha1sums=('e6381cd67f7d5c3a6e426d82814cac3f0618bda4')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${_pkgbase}-gtk3"
+    mv "${_pkgbase}-${pkgver}" "${_pkgbase}-gtk3"
 }
 
 build() {

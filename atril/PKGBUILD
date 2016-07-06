@@ -2,14 +2,15 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.15
-pkgbase=atril
-pkgname=${pkgbase}
+_pkgbase=atril
+pkgname=${_pkgbase}
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="MATE document viewer"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
-conflicts=("${pkgbase}-gtk3")
+provides=("${_pkgbase}" "${_pkgbase}-gtk3")
+conflicts=("${_pkgbase}-gtk3")
 license=('GPL')
 depends=('dconf' 'dbus' 'desktop-file-utils' 'glib2' 'gtk3' 'gtk-update-icon-cache' 
          'libsecret' 'libsm' 'libspectre' 'mate-desktop>=1.15' 'mathjax' 
@@ -22,16 +23,16 @@ optdepends=('caja: Document Properties extension'
             'texlive-bin: DVI support'
             'yelp: for reading MATE help documents')
 groups=('mate-extra')
-source=("http://pub.mate-desktop.org/releases/${_ver}/${pkgbase}-${pkgver}.tar.xz")
+source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
 sha1sums=('96c51bec6052b5887764c8cbee6bb2b04f7d23fb')
 
 prepare() {
     cd "${srcdir}"
-    mv "${pkgname}-${pkgver}" "${pkgbase}-gtk3"
+    mv "${_pkgbase}-${pkgver}" "${_pkgbase}-gtk3"
 }
 
 build() {
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     ./configure \
         --prefix=/usr \
         --libexecdir=/usr/lib/${_pkgbase} \
@@ -51,6 +52,6 @@ build() {
 
 package_atril() {
     pkgdesc+=' (GTK3 version)'
-    cd "${srcdir}/${pkgbase}-gtk3"
+    cd "${srcdir}/${_pkgbase}-gtk3"
     make DESTDIR="${pkgdir}" install
 }
