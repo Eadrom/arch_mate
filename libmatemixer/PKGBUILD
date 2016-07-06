@@ -2,7 +2,7 @@
 # Contributor:  Martin Wimpress <code@flexion.org>
 
 _ver=1.15
-_pkgbase}=libmatemixer
+_pkgbase=libmatemixer
 pkgname="${_pkgbase}"
 pkgver=${_ver}.0
 pkgrel=1
