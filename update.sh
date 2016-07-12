@@ -89,7 +89,7 @@ if [ "$first_run" == '1' ]
     fi
 fi
 
-if [ "$upd" == "yes" ] || [ ! $(cat ./maintain.txt) = 'Same' ]
+if [ "$upd" == "yes" ] && [ ! $(cat ./maintain.txt) = 'Same' ]
   then git-commit -a -m `cat ./maintain.txt`
     git push
 fi
