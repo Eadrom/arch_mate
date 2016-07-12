@@ -20,23 +20,29 @@ update_ver (){
   echo ${pkgs[@]}
 
   for i in ${pkgs[@]} ; do
-    cd ${pkgs[$counter]}
 
-    new_ver=${vers[$counter]}
-    sed -i -e "s/pkgver=\${_ver}.*/pkgver=\${_ver}.$new_ver/g" ./PKGBUILD
+    cd ${pkgs[$counter]} ; if [ "$?" -eq 0 ] ; then
 
-    old_sha=$(cat PKGBUILD | grep sha1sums= | sed -e 's/sha1sums=//g' | tr -d "''()")
-    new_sha=${shas[$counter]}
-    sed -i -e "s/$old_sha/$new_sha/g" ./PKGBUILD
+      new_ver=${vers[$counter]}
+      sed -i -e "s/pkgver=\${_ver}.*/pkgver=\${_ver}.$new_ver/g" ./PKGBUILD
+
+      old_sha=$(cat PKGBUILD | grep sha1sums= | sed -e 's/sha1sums=//g' | tr -d "''()")
+      new_sha=${shas[$counter]}
+      sed -i -e "s/$old_sha/$new_sha/g" ./PKGBUILD
 
     cd ..
+
+    fi
+
     counter=$((counter + 1))
+
   done
 }
 
 notify_user () {
-echo "$name was updated" >> ~/maintain.txt
 manipulate $(diff $dl.old $dl | grep '>')
+cd $dir
+echo "$name was updated" > ./maintain.txt
 }
 
 mod_pkg () {
@@ -61,24 +67,28 @@ done
 if [ ! -e ~/.cache/notify-$name ] ; then mkdir ~/.cache/notify-$name
   first_run=1 ; fi
 
+dir=$PWD
 cd ~/.cache/notify-$name
 
 if [ "$first_run" == '1' ]
   then wget $url 2> /dev/null ; echo $(sha1sum $dl) > ./sha1
     echo First run
-  else mv $dl $dl.old
-    wget $url 2> /dev/null
+  else wget $url 2> /dev/null
     a=$(cat ./sha1)
     b=$(echo $(sha1sum $dl))
     if [ "$a" == "$b" ]
       then echo Same
-      else notify_user 
+      else notify_user
         if [ "$upd" == "yes" ]
           then update_ver
-          else echo ${pkgs[@]}
+            echo $b > ~/.cache/notify-$name/sha1
+            rm ~/.cache/notify-$name/$dl.old
+            mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
+          else for i in ${pkgs[@]} ; do
+            rm ~/.cache/notify-$name/$dl
+            echo $i >> ./maintain.txt
+            done
         fi
-        echo $b > ./sha1
   fi
-  rm $dl.old
 fi
 
