@@ -4,7 +4,7 @@
 _ver=1.15
 _pkgbase=mate-notification-daemon
 pkgname=(${_pkgbase})
-pkgver=${_ver}.0
+pkgver=${_ver}.1
 pkgrel=1
 provides=('notification-daemon' "${_pkgbase}" "${_pkgbase}-gtk3")
 pkgdesc="Notification daemon for MATE"
@@ -16,7 +16,7 @@ depends=('dconf' 'dbus-glib' 'glib2' 'gtk3' 'gtk-update-icon-cache'
          'libcanberra' 'libwnck3' 'libwnck3' 'libnotify')
 makedepends=('mate-common')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")
-sha1sums=('97b49509dd798ad3e53fb5782c7cec1971190e61')
+sha1sums=('ffb3d87230fb5db38a581ddfc8199efc872cf472')
 
 prepare() {
     cd "${srcdir}"

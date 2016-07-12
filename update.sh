@@ -16,12 +16,9 @@ declare -a vers
 
 update_ver (){
   counter=0
-  cd ~/arch_mate/
-  echo ${pkgs[@]}
-
   for i in ${pkgs[@]} ; do
 
-    cd ${pkgs[$counter]} ; if [ "$?" -eq 0 ] ; then
+    cd ${pkgs[$counter]} 2> /dev/null ; if [ "$?" -eq 0 ] ; then
 
       new_ver=${vers[$counter]}
       sed -i -e "s/pkgver=\${_ver}.*/pkgver=\${_ver}.$new_ver/g" ./PKGBUILD
@@ -84,11 +81,11 @@ if [ "$first_run" == '1' ]
             echo $b > ~/.cache/notify-$name/sha1
             rm ~/.cache/notify-$name/$dl.old
             mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
-          else for i in ${pkgs[@]} ; do
-            rm ~/.cache/notify-$name/$dl
-            echo $i >> ./maintain.txt
-            done
+          else rm ~/.cache/notify-$name/$dl
         fi
-  fi
+          for i in ${pkgs[@]} ; do
+            echo $i >> ./maintain.txt
+          done
+    fi
 fi
 
