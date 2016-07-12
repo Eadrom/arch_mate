@@ -89,3 +89,7 @@ if [ "$first_run" == '1' ]
     fi
 fi
 
+if [ "$upd" == "yes" ]
+  then git-commit -m `cat ./maintain.txt`
+    git push
+fi
