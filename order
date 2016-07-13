@@ -7,7 +7,7 @@ libmatemixer
 libmateweather
 mate-terminal
 atril
-caja-extensions
+caja-extensions-common
 engrampa
 eom
 mate-backgrounds
@@ -28,6 +28,6 @@ mate-user-share
 mate-utils
 mozo
 pluma
-python2-caja
+python-caja
 mate-icon-theme-faenza
 mate-themes
