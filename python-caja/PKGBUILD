@@ -10,7 +10,7 @@ pkgdesc="Python binding for Caja, to allow Caja property page and menu item exte
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 provides=("${_pkgbase}" "${_pkgbase}-gtk3")
-conflicts=("${_pkgbase}-gtk3")
+conflicts=("${_pkgbase}" "${_pkgbase}-gtk3")
 license=('GPL')
 depends=('caja>=1.15' 'python2-gobject' 'mate-common')
 source=("http://pub.mate-desktop.org/releases/${_ver}/${_pkgbase}-${pkgver}.tar.xz")

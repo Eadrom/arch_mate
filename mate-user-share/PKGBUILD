@@ -10,7 +10,7 @@ pkgdesc="User level public file sharing via WebDAV for MATE."
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 provides=("${_pkgbase}" "${_pkgbase}-gtk3")
-conflicts=("${_pkgbase}-gtk3")
+conflicts=("${_pkgbase}" "${_pkgbase}-gtk3")
 license=('GPL')
 depends=('dbus-glib' 'desktop-file-utils' 'dconf' 'glib2' 'gtk-update-icon-cache'
          'libunique3' 'mod_dnssd')

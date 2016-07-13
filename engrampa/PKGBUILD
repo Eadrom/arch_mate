@@ -10,7 +10,7 @@ pkgdesc="Archive manipulator for MATE (GTK2 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
 provides=("${_pkgbase}" "${_pkgbase}-gtk3")
-conflicts=("${_pkgbase}-gtk3")
+conflicts=("${_pkgbase}" "${_pkgbase}-gtk3")
 license=('GPL')
 depends=('bzip2' 'desktop-file-utils' 'glib2' 'gtk3' 'gtk-update-icon-cache' 'gzip'
          'libarchive' 'tar')
