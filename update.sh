@@ -74,7 +74,7 @@ if [ "$first_run" == '1' ]
     a=$(cat ./sha1)
     b=$(echo $(sha1sum $dl))
     if [ "$a" == "$b" ]
-      then echo Same > ./maintain.txt
+      then echo Same > $dir/maintain.txt
       else notify_user
         if [ "$upd" == "yes" ]
           then update_ver
@@ -93,3 +93,5 @@ if [ "$upd" == "yes" ] && [ ! $(cat ./maintain.txt) = 'Same' ]
   then git-commit -a -m `cat ./maintain.txt`
     git push
 fi
+
+cat ./maintain.txt
