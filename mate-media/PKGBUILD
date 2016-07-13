@@ -3,7 +3,7 @@
 
 _ver=1.15
 _pkgbase=mate-media
-pkgname=(${_pkgbase})
+pkgname="${_pkgbase}"
 pkgver=${_ver}.0
 pkgrel=1
 url="http://mate-desktop.org"

@@ -3,7 +3,7 @@
 
 _ver=1.15
 _pkgbase=mate-settings-daemon
-pkgname=(${_pkgbase})
+pkgname="${_pkgbase}"
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="The MATE Settings daemon"
