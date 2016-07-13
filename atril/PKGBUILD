@@ -3,7 +3,7 @@
 
 _ver=1.15
 _pkgbase=atril
-pkgname=${_pkgbase}
+pkgname="${_pkgbase}"
 pkgver=${_ver}.1
 pkgrel=1
 pkgdesc="MATE document viewer"
