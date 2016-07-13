@@ -10,6 +10,7 @@ pkgdesc="Faenza icon theme for MATE"
 url="http://mate-desktop.org"
 arch=('any')
 provides=("${_pkgbase}" "${_pkgbase}-gtk3")
+conflicts=("${_pkgbase}-gtk3")
 license=('LGPL')
 depends=('gtk-update-icon-cache')
 makedepends=('git' 'icon-naming-utils' 'mate-common>=1.15')
