@@ -7,3 +7,4 @@ for i in ./*/ ; do echo $i ; cd $i ; makepkg --printsrcinfo > .SRCINFO ; cd .. ;
 decalre -a new
 for i in ./*/ ; do cd $i ; a=$( git commit -a -m 'loop' | grep 'files changed' ) ; if [ ! -z $a ] ; then new=( ${new[@]} $i ) ; fi ; cd .. ; done
 for i in ${new[@]} ; do cd $i ; git push ; cd .. ; done
+a='>=1.15' ; b='-1.15-gtk3' ; for i in ./*/PKGBUILD ; do sed -i -e "s/$a/$b/g" $i ; done
