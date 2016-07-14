@@ -4,6 +4,7 @@ pkgname="${_pkgbase}"
 pkgver=${_ver}.0
 pkgrel=1
 pkgdesc="Meta package for MATE"
+arch=(any)
 url="http://mate-desktop.org"
 license=('GPL')
 depends=(
