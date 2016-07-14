@@ -6,4 +6,4 @@ find ../*/ | grep -v mate-themes | grep -v .git | grep -v .SRCINFO | grep -v PKG
 for i in `cat list` ; do git clone git+ssh://aur@aur.archlinux.org/$(echo `echo $i | cut -d '/' -f 7`-$mate_ver-gtk3.git) ; done
 for i in `cat list` ; do cp -r  ../$i/* ./$(echo $i-$mate_ver-gtk3) ; done 
 git clone git+ssh://aur@aur.archlinux.org/mate-themes-$theme_ver-gtk3.git ;  cp ../mate-themes/* ./mate-themes-$theme_ver-gtk3
-#sh ../fast.sh
+sh ../fast.sh
