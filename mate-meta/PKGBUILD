@@ -1,0 +1,14 @@
+_ver=1.15
+_pkgbase=mate-meta
+pkgname="${_pkgbase}"
+pkgver=${_ver}.0
+pkgrel=1
+pkgdesc="Meta package for MATE"
+url="http://mate-desktop.org"
+license=('GPL')
+depends=(
+)
+
+package(){
+  /bin/true
+}
