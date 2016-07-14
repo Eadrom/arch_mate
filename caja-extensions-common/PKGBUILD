@@ -37,7 +37,7 @@ package_caja-extensions-common() {
 }
 
 package_caja-gksu() {
-    pkgdesc="Privilege granting extension for Caja using gksu (GTK3 version [EXPERIMENTAL])"
+    pkgdesc="Privilege granting extension for Caja using gksu (GTK3 version)"
     depends=('caja' 'caja-extensions-common' 'gksu')
     groups=('mate-extra')
     conflicts=('caja-gksu' 'caja-gksu-gtk3')
@@ -47,7 +47,7 @@ package_caja-gksu() {
 }
 
 package_caja-image-converter() {
-    pkgdesc="A Caja extension for simple image conversions (GTK3 version [EXPERIMENTAL])"
+    pkgdesc="A Caja extension for simple image conversions (GTK3 version)"
     depends=('caja' 'caja-extensions-common' 'imagemagick')
     groups=('mate-extra')
     conflicts=('caja-image-converter' 'caja-image-converter-gtk3')
@@ -57,7 +57,7 @@ package_caja-image-converter() {
 }
 
 package_caja-open-terminal() {
-    pkgdesc="A Caja extension for opening terminals in arbitrary local paths (GTK3 version [EXPERIMENTAL])"
+    pkgdesc="A Caja extension for opening terminals in arbitrary local paths (GTK3 version)"
     depends=('caja' 'caja-extensions-common' 'glib2')
     groups=('mate-extra')
     conflicts=('caja-open-terminal' 'caja-open-terminal-gtk3')
@@ -67,7 +67,7 @@ package_caja-open-terminal() {
 }
 
 package_caja-sendto() {
-    pkgdesc="A Caja extension for sending files (GTK3 version [EXPERIMENTAL])"
+    pkgdesc="A Caja extension for sending files (GTK3 version)"
     depends=('caja' 'caja-extensions-common' 'dbus-glib' 'glib2' 'gupnp')
     groups=('mate-extra')
     optdepends=('pidgin: Support for sending to instant messaging networks.'
@@ -79,7 +79,7 @@ package_caja-sendto() {
 }
 
 package_caja-share() {
-    pkgdesc="A Caja extension to quickly share a folder (GTK3 version [EXPERIMENTAL])"
+    pkgdesc="A Caja extension to quickly share a folder (GTK3 version)"
     depends=('caja' 'caja-extensions-common' 'samba')
     groups=('mate-extra')
     conflicts=('caja-share' 'caja-share-gtk3')
