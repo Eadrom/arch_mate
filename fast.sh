@@ -8,4 +8,4 @@ a='PKGBUILD' ; for i in ./*/$a ; do echo $i | grep -v meta | sed -e "s/$a//g" | 
 a='depends=(' ; b=$(cat ./list) ; sed -i -e "/$a/a $b" mate-meta-1.15-gtk3/PKGBUILD
 
 for i in ./*/ ; do cd $i ; makepkg --printsrcinfo > .SRCINFO ; cd .. ; done
-# git commit -av ; git push ; cd .. ; done
+for i in ./*/ ; do cd $i ; git commit -a -m 'auto - see github.com/nicman23/mate_arch' ; git push ; cd .. ; done
