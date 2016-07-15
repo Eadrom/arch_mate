@@ -1,7 +1,7 @@
 # arch_mate
 PKGBUILD's for MATE in Arch Linux's
 
-This is currently updated with a cron job (with the script ./update.sh)
+You can install with mate-meta-1.15-gtk3 package in the aur
 
 Features:
 
@@ -13,3 +13,5 @@ Known Issues (things i removed from orginal community branch):
 * cannot make mate-sensors-applet as it needs a nvidia package.
 * mate-netbook has never worked for me.
 * cannot make mate-indicator-applet because arch/aur lacks libido3
+
+This is currently updated with a cron job (with the script ./update.sh)
