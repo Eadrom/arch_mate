@@ -39,6 +39,8 @@ update_ver (){
 }
 
 notify_user () {
+counter=0
+
 for i in ${pkgs[@]} ; do
   echo $i'	' "${shas[$counter]}" >> $dir/maintain.txt
   counter=$((counter + 1))
@@ -54,8 +56,9 @@ vers=( ${vers[@]} $new_ver )
 }
 
 manipulate () {
-echo $@
-if [ -z "$@" ]
+hackyhack=$(echo $@ | tr -d ' >')
+
+if [ -z $hackyhack ]
   then echo Same
     rm ~/.cache/notify-$name/$dl
     exit 2
@@ -93,16 +96,12 @@ if [ "$upd" == "yes" ]
   then update_ver
     rm ~/.cache/notify-$name/$dl.old
     mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
-  else rm ~/.cache/notify-$name/$dl
-fi
-
-counter=0
-
-
-if [ "$upd" == "yes" ]
-  then echo Will commit
-#git-commit -a -v -m `cat $dir/maintain.txt`
+    echo Will commit
+#    git-commit -a -v -m `cat $dir/maintain.txt`
 #    git push
+  else rm ~/.cache/notify-$name/$dl
+    notify_user
 fi
+
 
 cat $dir/maintain.txt
