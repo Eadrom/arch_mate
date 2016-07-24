@@ -1,3 +1,4 @@
+
 if [ ! -z $@ ]
   then
     name=$1
@@ -13,6 +14,7 @@ url="$url$dl"
 declare -a shas
 declare -a pkgs
 declare -a vers
+dir=$PWD
 
 update_ver (){
   counter=0
@@ -37,9 +39,10 @@ update_ver (){
 }
 
 notify_user () {
-manipulate $(diff $dl.old $dl | grep '>')
-cd $dir
-echo "$name was updated" > ./maintain.txt
+for i in ${pkgs[@]} ; do
+  echo $i'	' "${shas[$counter]}" >> $dir/maintain.txt
+  counter=$((counter + 1))
+done
 }
 
 mod_pkg () {
@@ -51,6 +54,15 @@ vers=( ${vers[@]} $new_ver )
 }
 
 manipulate () {
+echo $@
+if [ -z "$@" ]
+  then echo Same
+    rm ~/.cache/notify-$name/$dl
+    exit 2
+fi
+
+echo "$name was updated" > $dir/maintain.txt
+
 while true; do
   case $1 in
     ''		) break ;;
@@ -58,40 +70,39 @@ while true; do
     *-*		) mod_pkg $1 ; shift ;;
     *		) shas=( ${shas[@]} $1 ) ; shift ;;
   esac
-done 
+done
 }
 
 if [ ! -e ~/.cache/notify-$name ] ; then mkdir ~/.cache/notify-$name
   first_run=1 ; fi
 
-dir=$PWD
 cd ~/.cache/notify-$name
 
 if [ "$first_run" == '1' ]
-  then wget $url 2> /dev/null ; echo $(sha1sum $dl) > ./sha1
+  then wget $url 2> /dev/null
     echo First run
-  else wget $url 2> /dev/null
-    a=$(cat ./sha1)
-    b=$(echo $(sha1sum $dl))
-    if [ "$a" == "$b" ]
-      then echo Same > $dir/maintain.txt
-      else notify_user
-        if [ "$upd" == "yes" ]
-          then update_ver
-            echo $b > ~/.cache/notify-$name/sha1
-            rm ~/.cache/notify-$name/$dl.old
-            mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
-          else rm ~/.cache/notify-$name/$dl
-        fi
-          for i in ${pkgs[@]} ; do
-            echo $i >> ./maintain.txt
-          done
-    fi
+    mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
+    exit 3
 fi
 
-if [ "$upd" == "yes" ] && [ ! $(cat ./maintain.txt) = 'Same' ]
-  then git-commit -a -m `cat ./maintain.txt`
-    git push
+wget $url 2> /dev/null
+
+manipulate $(diff ~/.cache/notify-$name/$dl.old ~/.cache/notify-$name/$dl | grep '>')
+
+if [ "$upd" == "yes" ]
+  then update_ver
+    rm ~/.cache/notify-$name/$dl.old
+    mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
+  else rm ~/.cache/notify-$name/$dl
 fi
 
-cat ./maintain.txt
+counter=0
+
+
+if [ "$upd" == "yes" ]
+  then echo Will commit
+#git-commit -a -v -m `cat $dir/maintain.txt`
+#    git push
+fi
+
+cat $dir/maintain.txt
