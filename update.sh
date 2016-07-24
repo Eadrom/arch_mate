@@ -17,6 +17,8 @@ declare -a vers
 dir=$PWD
 
 update_ver (){
+  cd $dir
+
   counter=0
   for i in ${pkgs[@]} ; do
 
@@ -100,8 +102,7 @@ if [ "$upd" == "yes" ]
 #    git-commit -a -v -m `cat $dir/maintain.txt`
 #    git push
   else rm ~/.cache/notify-$name/$dl
-    notify_user
 fi
 
-
+notify_user
 cat $dir/maintain.txt
