@@ -3,20 +3,13 @@ theme_ver=3.20
 declare -a list
 declare -a aurlist
 
-status() {
-  if [ -z $(git status -s) ]
-    then return 0
-    else return 1
-  fi
-}
-
 temp=$(find ./*/ -maxdepth 0 | grep -v mate-themes | grep -v caja-extensions | grep -v aur | tr -d ./)
 
 for i in $(echo $temp)
  do list=(${list[@]} $i)
 done
 
-mkdir aur ; if [ "$?" = '0' ]
+mkdir aur &> /dev/null ; if [ "$?" = '0' ]
 then
   cd aur
   for i in ${list[@]} caja-extensions-common ; do git clone git+ssh://aur@aur.archlinux.org/$i-$mate_ver-gtk3.git ; done
@@ -38,7 +31,7 @@ b='pkgname="${_pkgbase}-${_ver}-gtk3"'
 c='>=1.15'
 d='-1.15-gtk3'
 for i in ${aurlist[@]}
-  do echo $i ; a=$(cat $i/PKGBUILD | grep 'pkgname="${_pkgbase}"') ; if [ ! -z $a ]
+  do a=$(cat $i/PKGBUILD | grep 'pkgname="${_pkgbase}"') ; if [ ! -z $a ]
     then sed -i -e "s/$a/$b/g" $i/PKGBUILD
   fi
   sed -i -e "s/$c/$d/g" $i/PKGBUILD
@@ -54,21 +47,24 @@ for i in 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-
 done
 
 #gen meta package
-exit
-someta() {
-}
+a='depends=(' ; b=$(echo ${aurlist[@]} caja-extensions-common-1.15-gtk3) ; sed -i -e "/$a/a $b" mate-meta-1.15-gtk3/PKGBUILD
 
-a='depends=(' ; b=$(someta) ; sed -i -e "/$a/a $b" mate-meta-1.15-gtk3/PKGBUILD
+status() {
+  if [ -z "$(git status -s)" ]
+    then return 0
+    else return 1
+  fi
+}
 
 for i in ./*/
   do cd $i
-  status ; if [ "$?" = '1' ]
-  then
-echo $i
-#    makepkg --printsrcinfo > .SRCINFO
-#    git commit -a -m 'auto - see github.com/nicman23/mate_arch'
-#    git push
-  fi
+    status ; if [ "$?" = '1' ]
+    then
+      echo "Commiting changes in $(echo $i | sed -e "s/-1.15-gtk3\///g" | sed -e "s/.\///g")"
+      makepkg --printsrcinfo > .SRCINFO
+      git commit -a -m 'auto - see github.com/nicman23/mate_arch' &> /dev/null
+      git push &> /dev/null
+    fi
   cd ..
 done
 
