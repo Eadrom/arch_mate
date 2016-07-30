@@ -5,8 +5,8 @@ mkdir aur ; cd aur
 
 find ../*/ | grep -v mate-themes | grep -v .git | grep -v .SRCINFO | grep -v PKGBUILD | grep -v patch | grep -v aur | tr -d './' > ./list
 
-for i in `cat list` ; do mkdir $(echo $i-$mate_ver-gtk3) ; cp -r  ../$i/* ./$(echo $i-$mate_ver-gtk3) ; done
-mkdir mate-themes-$theme_ver-gtk3 ;  cp ../mate-themes/* ./mate-themes-$theme_ver-gtk3
+for i in `cat list` ; do git clone git+ssh://aur@aur.archlinux.org/$i-$mate_ver-gtk3.git ; cp -r  ../$i/* ./$(echo $i-$mate_ver-gtk3) ; done
+git clone  git+ssh://aur@aur.archlinux.org/mate-themes-$theme_ver-gtk3.git ;  cp ../mate-themes/* ./mate-themes-$theme_ver-gtk3
 
 find ./*/ | grep -v .git | grep -v .SRCINFO | grep -v PKGBUILD | grep -v patch | grep -v aur | grep -v caja-exten | sed -e "s/.\///g" | sed -e "s/gtk/gtk3/g" > ./list
 
