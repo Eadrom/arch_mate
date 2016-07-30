@@ -16,28 +16,29 @@ for i in $(echo $temp)
  do list=(${list[@]} $i)
 done
 
-mkdir aur ; if [ "$?" = 1 ] ; then
+mkdir aur ; if [ "$?" = '0' ]
+then
   cd aur
-
-  for i in ${list[@]} caja-extensions-common ; do git clone git+ssh://aur@aur.archlinux.org/$i-$mate_ver-gtk3.git
+  for i in ${list[@]} caja-extensions-common ; do git clone git+ssh://aur@aur.archlinux.org/$i-$mate_ver-gtk3.git ; done
   git clone  git+ssh://aur@aur.archlinux.org/mate-themes-$theme_ver-gtk3.git
-
 else
   cd aur
 fi
 
-for i in ${list[@]} caja-extensions-common ; do cp -r  ../$i/* ./$(echo $i-$mate_ver-gtk3) ; done
-cp ../mate-themes/* ./mate-themes-$theme_ver-gtk3
+for i in ${list[@]} caja-extensions-common ; do cp -r  ../$i/* ./$i-$mate_ver-gtk3/ ; done
+cp ../mate-themes/* ./mate-themes-$theme_ver-gtk3/
 
-for i in ${list[@]} mate-themes
-  do aurlist=(${aurlist[@]}-$mate_ver-gtk3 $i)
+
+for i in ${list[@]}
+  do aurlist=(${aurlist[@]} $i-$mate_ver-gtk3)
 done
+aurlist=(${aurlist[@]} mate-themes-$theme_ver-gtk3)
 
 b='pkgname="${_pkgbase}-${_ver}-gtk3"'
 c='>=1.15'
 d='-1.15-gtk3'
 for i in ${aurlist[@]}
-  do a=$(cat $i/PKGBUILD | grep 'pkgname="${_pkgbase}"') ; if [ ! -z $a ]
+  do echo $i ; a=$(cat $i/PKGBUILD | grep 'pkgname="${_pkgbase}"') ; if [ ! -z $a ]
     then sed -i -e "s/$a/$b/g" $i/PKGBUILD
   fi
   sed -i -e "s/$c/$d/g" $i/PKGBUILD
@@ -53,7 +54,7 @@ for i in 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-
 done
 
 #gen meta package
-
+exit
 someta() {
 }
 
