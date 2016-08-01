@@ -1,10 +1,15 @@
 
 if [ ! -z $@ ]
   then
-    name=$1
-    url=$2
-    dl=$3
-    upd=$4
+    if [ -e $@ ]
+      then
+        source $@
+      else
+        name=$1
+        url=$2
+        dl=$3
+        upd=$4
+      fi
   else
     source ./update.conf
 fi
