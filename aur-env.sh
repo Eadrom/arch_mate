@@ -25,6 +25,7 @@ cp ../mate-themes/* ./mate-themes-$theme_ver-gtk3/
 for i in ${list[@]}
   do aurlist=(${aurlist[@]} $i-$mate_ver-gtk3)
 done
+
 aurlist=(${aurlist[@]} mate-themes-$theme_ver-gtk3)
 
 b='pkgname="${_pkgbase}-${_ver}-gtk3"'
@@ -47,7 +48,8 @@ for i in 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-
 done
 
 #gen meta package
-a='depends=(' ; b=$(echo ${aurlist[@]} caja-extensions-common-1.15-gtk3) ; sed -i -e "/$a/a $b" mate-meta-1.15-gtk3/PKGBUILD
+a='depends=(' ; b=$(echo ${aurlist[@]/mate-meta-1.15-gtk3} caja-extensions-common-1.15-gtk3)
+sed -i -e "/$a/a $b" mate-meta-1.15-gtk3/PKGBUILD
 
 status() {
   if [ -z "$(git status -s)" ]
