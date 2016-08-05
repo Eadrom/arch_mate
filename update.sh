@@ -104,7 +104,7 @@ if [ "$upd" == "yes" ]
     rm ~/.cache/notify-$name/$dl.old
     mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
     echo Will commit
-    git commit -F $dir/maintain.txt
+    git commit -aF $dir/maintain.txt
     git push
   else rm ~/.cache/notify-$name/$dl
 fi
