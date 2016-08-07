@@ -113,7 +113,7 @@ if [ "$upd" == "yes" ]
     mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
     echo Will commit
     git commit -a -m "$(echo ${pkgs[@]}) $copular_verb updated"
-#    git push
+    git push
   else rm ~/.cache/notify-$name/$dl
 fi
 

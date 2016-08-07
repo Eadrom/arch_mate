@@ -40,11 +40,12 @@ done
 
 a='caja>=1.15' ; b='caja-1.15-gtk3'
 sed -i -e "s/$a/$b/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
-a='-1.15-gtk3' ; b='>=1.15'
-for i in 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-terminal' 'caja-sendto' 'caja-share' ; do
-  sed -i -e "s/$b//g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
-  sed -i -e "s/$i/$i$a/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
-  sed -i -e "s/$i$a-gtk3/$i' '$i-gtk3/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
+a='-1.15-gtk3' ; b='>=1.15' ; c='-gtk3-gtk3'
+for i in 'mate-common' 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-terminal' 'caja-sendto' 'caja-share' ; do
+  sed -i -e "s/$i(/$i$a(/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
+  sed -i -e "s/$i$b/$i$a/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
+  sed -i -e "s/$i'/$i$a'/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
+
 done
 
 #gen meta package
