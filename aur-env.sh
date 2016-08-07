@@ -29,8 +29,8 @@ done
 aurlist=(${aurlist[@]} mate-themes-$theme_ver-gtk3)
 
 b='pkgname="${_pkgbase}-${_ver}-gtk3"'
-c='>=1.15'
-d='-1.15-gtk3'
+c=">=$mate_ver"
+d="-$mate_ver-gtk3"
 for i in ${aurlist[@]}
   do a=$(cat $i/PKGBUILD | grep 'pkgname="${_pkgbase}"') ; if [ ! -z $a ]
     then sed -i -e "s/$a/$b/g" $i/PKGBUILD
@@ -38,19 +38,19 @@ for i in ${aurlist[@]}
   sed -i -e "s/$c/$d/g" $i/PKGBUILD
 done
 
-a='caja>=1.15' ; b='caja-1.15-gtk3'
-sed -i -e "s/$a/$b/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
-a='-1.15-gtk3' ; b='>=1.15' ; c='-gtk3-gtk3'
+a="caja>=$mate_ver" ; b="caja-$mate_ver-gtk3"
+sed -i -e "s/$a/$b/g" ./caja-extensions-common-$mate_ver-gtk3/PKGBUILD
+a="-$mate_ver-gtk3" ; b=">=$mate_ver" ; c='-gtk3-gtk3'
 for i in 'mate-common' 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-terminal' 'caja-sendto' 'caja-share' ; do
-  sed -i -e "s/$i(/$i$a(/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
-  sed -i -e "s/$i$b/$i$a/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
-  sed -i -e "s/$i'/$i$a'/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
+  sed -i -e "s/$i(/$i$a(/g" ./caja-extensions-common-$mate_ver-gtk3/PKGBUILD
+  sed -i -e "s/$i$b/$i$a/g" ./caja-extensions-common-$mate_ver-gtk3/PKGBUILD
+  sed -i -e "s/$i'/$i$a'/g" ./caja-extensions-common-$mate_ver-gtk3/PKGBUILD
 
 done
 
 #gen meta package
-a='depends=(' ; b=$(echo ${aurlist[@]/mate-meta-1.15-gtk3} caja-extensions-common-1.15-gtk3)
-sed -i -e "/$a/a $b" mate-meta-1.15-gtk3/PKGBUILD
+a='depends=(' ; b=$(echo ${aurlist[@]/mate-meta-$mate_ver-gtk3} caja-extensions-common-$mate_ver-gtk3)
+sed -i -e "/$a/a $b" mate-meta-$mate_ver-gtk3/PKGBUILD
 
 status() {
   if [ -z "$(git status -s)" ]
@@ -63,10 +63,10 @@ for i in ./*/
   do cd $i
     status ; if [ "$?" = '1' ]
     then
-      echo "Commiting changes in $(echo $i | sed -e "s/-1.15-gtk3\///g" | sed -e "s/.\///g")"
-      makepkg --printsrcinfo > .SRCINFO
-      git commit -a -m 'auto - see github.com/nicman23/mate_arch' &> /dev/null
-      git push &> /dev/null
+      echo "Commiting changes in $(echo $i | sed -e "s/-$mate_ver-gtk3\///g" | sed -e "s/.\///g")"
+#      makepkg --printsrcinfo > .SRCINFO
+#      git commit -a -m 'auto - see github.com/nicman23/mate_arch' &> /dev/null
+#      git push &> /dev/null
     fi
   cd ..
 done
