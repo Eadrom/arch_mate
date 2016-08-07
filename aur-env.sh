@@ -38,9 +38,9 @@ for i in ${aurlist[@]}
   sed -i -e "s/$c/$d/g" $i/PKGBUILD
 done
 
-a='caja>=1.15' ; b='caja-1.15-gtk3' ; sed -i -e "s/$a/$b/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
-
-a='-1.15-gtk3' ; b='>=1.15' ;
+a='caja>=1.15' ; b='caja-1.15-gtk3'
+sed -i -e "s/$a/$b/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
+a='-1.15-gtk3' ; b='>=1.15'
 for i in 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-terminal' 'caja-sendto' 'caja-share' ; do
   sed -i -e "s/$b//g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
   sed -i -e "s/$i/$i$a/g" ./caja-extensions-common-1.15-gtk3/PKGBUILD
