@@ -5,8 +5,8 @@
 _ver=1.15
 _pkgbase=libmatekbd
 pkgname="${_pkgbase}"
-pkgver=${_ver}.1
-pkgrel=1
+pkgver=${_ver}.0
+pkgrel=2
 pkgdesc="MATE keyboard library (GTK3 version)"
 url="http://mate-desktop.org"
 arch=('i686' 'x86_64')
