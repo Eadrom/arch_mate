@@ -56,7 +56,7 @@ notify_user () {
 counter=0
 
 for i in ${pkgs[@]} ; do
-  echo $i'	' "${shas[$counter]}" >> $dir/maintain.txt
+  echo $i'	' "${shas[$counter]}" >> $dir/maintain-$name.txt
   counter=$((counter + 1))
 done
 
@@ -79,7 +79,7 @@ if [ -z $hackyhack ]
     exit 2
 fi
 
-echo "$name was updated" > $dir/maintain.txt
+echo "$name was updated" > $dir/maintain-$name.txt
 
 while true; do
   case $1 in
@@ -118,4 +118,4 @@ if [ "$upd" == "yes" ]
 fi
 
 notify_user
-cat $dir/maintain.txt
+cat $dir/maintain-$name.txt
