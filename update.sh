@@ -74,7 +74,7 @@ manipulate () {
 hackyhack=$(echo $@ | tr -d ' >')
 
 if [ -z $hackyhack ]
-  then echo Same
+  then echo Same > $dir/maintain-$name.txt
     rm ~/.cache/notify-$name/$dl
     exit 2
 fi
