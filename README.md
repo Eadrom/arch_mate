@@ -15,4 +15,4 @@ Known Issues (things i removed from orginal community branch):
 * mate-netbook has never worked for me.
 * cannot make mate-indicator-applet because arch/aur lacks libido3
 
-This is currently updated with a cron job (with the script ./update.sh) on a 12 hour basis.
+This is currently updated with a cron job (with the script ./update.sh) on a 6 hour basis.
