@@ -41,7 +41,7 @@ done
 a="caja>=$mate_ver" ; b="caja-dev"
 sed -i -e "s/$a/$b/g" ./caja-extensions-common-dev/PKGBUILD
 a="-dev" ; b=">=$mate_ver" ; c='-dev-dev'
-for i in 'mate-common' 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-terminal' 'caja-sendto' 'caja-share' ; do
+for i in 'mate-common' 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-terminal' 'caja-sendto' 'caja-share' 'caja-wallpaper'; do
   sed -i -e "s/$i(/$i$a(/g" ./caja-extensions-common-dev/PKGBUILD
   sed -i -e "s/$i$b/$i$a/g" ./caja-extensions-common-dev/PKGBUILD
   sed -i -e "s/$i'/$i$a'/g" ./caja-extensions-common-dev/PKGBUILD
@@ -64,9 +64,9 @@ for i in ./*/
     status ; if [ "$?" = '1' ]
     then
       echo "Commiting changes in $(echo $i | sed -e "s/-dev\///g" | sed -e "s/.\///g")"
-#      makepkg --printsrcinfo > .SRCINFO
-#      git commit -a -m 'auto - see github.com/nicman23/mate_arch' &> /dev/null
-#      git push &> /dev/null
+      makepkg --printsrcinfo > .SRCINFO
+      git commit -a -m 'auto - see github.com/nicman23/mate_arch' &> /dev/null
+      git push &> /dev/null
     fi
   cd ..
 done
