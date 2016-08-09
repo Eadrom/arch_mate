@@ -12,25 +12,25 @@ done
 mkdir aur &> /dev/null ; if [ "$?" = '0' ]
 then
   cd aur
-  for i in ${list[@]} caja-extensions-common ; do git clone git+ssh://aur@aur.archlinux.org/$i-$mate_ver-gtk3.git ; done
+  for i in ${list[@]} caja-extensions-common ; do git clone git+ssh://aur@aur.archlinux.org/$i-dev.git ; done
   git clone  git+ssh://aur@aur.archlinux.org/mate-themes-$theme_ver-gtk3.git
 else
   cd aur
 fi
 
-for i in ${list[@]} caja-extensions-common ; do cp -r  ../$i/* ./$i-$mate_ver-gtk3/ ; done
+for i in ${list[@]} caja-extensions-common ; do cp -r  ../$i/* ./$i-dev/ ; done
 cp ../mate-themes/* ./mate-themes-$theme_ver-gtk3/
 
 
 for i in ${list[@]}
-  do aurlist=(${aurlist[@]} $i-$mate_ver-gtk3)
+  do aurlist=(${aurlist[@]} $i-dev)
 done
 
 aurlist=(${aurlist[@]} mate-themes-$theme_ver-gtk3)
 
-b='pkgname="${_pkgbase}-${_ver}-gtk3"'
+b='pkgname="${_pkgbase}-dev"'
 c=">=$mate_ver"
-d="-$mate_ver-gtk3"
+d="-dev"
 for i in ${aurlist[@]}
   do a=$(cat $i/PKGBUILD | grep 'pkgname="${_pkgbase}"') ; if [ ! -z $a ]
     then sed -i -e "s/$a/$b/g" $i/PKGBUILD
@@ -38,19 +38,19 @@ for i in ${aurlist[@]}
   sed -i -e "s/$c/$d/g" $i/PKGBUILD
 done
 
-a="caja>=$mate_ver" ; b="caja-$mate_ver-gtk3"
-sed -i -e "s/$a/$b/g" ./caja-extensions-common-$mate_ver-gtk3/PKGBUILD
-a="-$mate_ver-gtk3" ; b=">=$mate_ver" ; c='-gtk3-gtk3'
+a="caja>=$mate_ver" ; b="caja-dev"
+sed -i -e "s/$a/$b/g" ./caja-extensions-common-dev/PKGBUILD
+a="-dev" ; b=">=$mate_ver" ; c='-dev-dev'
 for i in 'mate-common' 'caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-terminal' 'caja-sendto' 'caja-share' ; do
-  sed -i -e "s/$i(/$i$a(/g" ./caja-extensions-common-$mate_ver-gtk3/PKGBUILD
-  sed -i -e "s/$i$b/$i$a/g" ./caja-extensions-common-$mate_ver-gtk3/PKGBUILD
-  sed -i -e "s/$i'/$i$a'/g" ./caja-extensions-common-$mate_ver-gtk3/PKGBUILD
+  sed -i -e "s/$i(/$i$a(/g" ./caja-extensions-common-dev/PKGBUILD
+  sed -i -e "s/$i$b/$i$a/g" ./caja-extensions-common-dev/PKGBUILD
+  sed -i -e "s/$i'/$i$a'/g" ./caja-extensions-common-dev/PKGBUILD
 
 done
 
 #gen meta package
-a='depends=(' ; b=$(echo ${aurlist[@]/mate-meta-$mate_ver-gtk3} caja-extensions-common-$mate_ver-gtk3)
-sed -i -e "/$a/a $b" mate-meta-$mate_ver-gtk3/PKGBUILD
+a='depends=(' ; b=$(echo ${aurlist[@]/mate-meta-dev} caja-extensions-common-dev)
+sed -i -e "/$a/a $b" mate-meta-dev/PKGBUILD
 
 status() {
   if [ -z "$(git status -s)" ]
@@ -63,7 +63,7 @@ for i in ./*/
   do cd $i
     status ; if [ "$?" = '1' ]
     then
-      echo "Commiting changes in $(echo $i | sed -e "s/-$mate_ver-gtk3\///g" | sed -e "s/.\///g")"
+      echo "Commiting changes in $(echo $i | sed -e "s/-dev\///g" | sed -e "s/.\///g")"
 #      makepkg --printsrcinfo > .SRCINFO
 #      git commit -a -m 'auto - see github.com/nicman23/mate_arch' &> /dev/null
 #      git push &> /dev/null
