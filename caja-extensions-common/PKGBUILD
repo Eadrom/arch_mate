@@ -4,9 +4,9 @@
 
 _ver=1.15
 _pkgbase=caja-extensions
-pkgname=('caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-terminal' 'caja-sendto' 'caja-share')
+pkgname=('caja-extensions-common' 'caja-gksu' 'caja-image-converter' 'caja-open-terminal' 'caja-sendto' 'caja-share' 'caja-wallpaper')
 pkgver=${_ver}.0
-pkgrel=3
+pkgrel=4
 pkgdesc="MATE extensions for Caja (GTK3 version)"
 url="http://mate-desktop.org"
 arch=("i686" "x86_64")
@@ -82,4 +82,13 @@ package_caja-share() {
     conflicts=("caja-share" "caja-share-gtk3")
     cd "${srcdir}/${_pkgbase}-gtk3"
     make -C share DESTDIR="${pkgdir}" install
+}
+
+package_caja-wallpaper() {
+    pkgdesc="A Caja extension to quickly set wallpaper (GTK2 version)"
+    depends=('caja>=1.15' 'caja-extensions-common>=1.15')
+    groups=('mate-extra')
+    conflicts=('caja-wallpaper' 'caja-wallpaper-gtk3')
+    cd "${srcdir}/${_pkgbase}-gtk3"
+    make -C wallpaper DESTDIR="${pkgdir}" install
 }
