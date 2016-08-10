@@ -76,7 +76,7 @@ hackyhack=$(echo $@ | tr -d ' >')
 if [ -z $hackyhack ]
   then echo Same > $dir/maintain-$name.txt
     rm ~/.cache/notify-$name/$dl
-    exit 2
+    return 2
 fi
 
 echo "$name was updated" > $dir/maintain-$name.txt
@@ -105,17 +105,17 @@ fi
 
 wget $url 2> /dev/null
 
-manipulate $(diff ~/.cache/notify-$name/$dl.old ~/.cache/notify-$name/$dl | grep '>')
-
-if [ "$upd" == "yes" ]
-  then update_ver
+manipulate $(diff ~/.cache/notify-$name/$dl.old ~/.cache/notify-$name/$dl | grep '>') ; if [ "$?" = 2 ]
+then 
+  if [ "$upd" == "yes" ]
+    then update_ver
     rm ~/.cache/notify-$name/$dl.old
     mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
     echo Will commit
     git commit -a -m "$(echo ${pkgs[@]}) $copular_verb updated"
     git push
   else rm ~/.cache/notify-$name/$dl
+  fi
+  notify_user
 fi
-
-notify_user
 cat $dir/maintain-$name.txt
