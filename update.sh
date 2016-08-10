@@ -1,17 +1,17 @@
 
 if [ ! -z $@ ]
+then
+  if [ -e $@ ]
   then
-    if [ -e $@ ]
-      then
-        source $@
-      else
-        name=$1
-        url=$2
-        dl=$3
-        upd=$4
-      fi
+    source $@
   else
-    source ./update.conf
+    name=$1
+    url=$2
+     dl=$3
+     upd=$4
+  fi
+else
+  source ./update.conf
 fi
 
 url="$url$dl"
@@ -74,9 +74,10 @@ manipulate () {
 hackyhack=$(echo $@ | tr -d ' >')
 
 if [ -z $hackyhack ]
-  then echo Same > $dir/maintain-$name.txt
-    rm ~/.cache/notify-$name/$dl
-    return 2
+then
+  echo Same > $dir/maintain-$name.txt
+  rm ~/.cache/notify-$name/$dl
+  return 2
 fi
 
 echo "$name was updated" > $dir/maintain-$name.txt
@@ -97,18 +98,18 @@ if [ ! -e ~/.cache/notify-$name ] ; then mkdir ~/.cache/notify-$name
 cd ~/.cache/notify-$name
 
 if [ "$first_run" == '1' ]
-  then wget $url 2> /dev/null
-    echo First run
-    mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
-    exit 3
+then wget $url 2> /dev/null
+  echo First run
+  mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
+  exit 3
 fi
 
 wget $url 2> /dev/null
 
-manipulate $(diff ~/.cache/notify-$name/$dl.old ~/.cache/notify-$name/$dl | grep '>') ; if [ "$?" = 2 ]
+manipulate $(diff ~/.cache/notify-$name/$dl.old ~/.cache/notify-$name/$dl | grep '>') ; if [ ! "$?" = 2 ]
 then 
   if [ "$upd" == "yes" ]
-    then update_ver
+  then update_ver
     rm ~/.cache/notify-$name/$dl.old
     mv ~/.cache/notify-$name/$dl ~/.cache/notify-$name/$dl.old
     echo Will commit
